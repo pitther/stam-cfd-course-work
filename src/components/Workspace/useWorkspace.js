@@ -1,68 +1,43 @@
-
 import {useCallback} from "react";
-import * as PIXI from "pixi.js";
-import ColorScale from "color-scales";
-import {IX, useStemFluid} from "../../hooks/StemFluid";
+import {useStemFluid} from "../../hooks/StemFluid";
+import {use2DContextRender} from "../../hooks/2DContextRender";
 
+const FLUID_UPDATE_INTERVAL_S = 30 / 60;
 
-const FPS = 1 / 60;
-
-const limit = (num, min, max) => Math.min(Math.max(num, min), max)
-
-const lerp = (x, y, a) => x * (1 - a) + y * (a > 1 ? 1 : a);
-
-const rgbToNormalLimit = (rgb) => {
-    return [rgb[0] / 255, rgb[1] / 255, rgb[2] / 255]
-}
-
-const rgbToHex = (rgb) => {
-    return PIXI.utils.rgb2hex(rgbToNormalLimit(rgb))
-}
+const RENDER_INTERVAL_MS = FLUID_UPDATE_INTERVAL_S * 1000;
 
 const nativeCoordsToFluid = (x, y, CANVAS_WIDTH, CANVAS_HEIGHT, SIZE_X, SIZE_Y) => {
     return {x: Math.floor(x * SIZE_X / CANVAS_WIDTH), y: Math.floor(y * SIZE_Y / CANVAS_HEIGHT)}
 }
 
 export const useWorkspace = ({CANVAS_WIDTH, CANVAS_HEIGHT, SIZE}) => {
-    const {FLUID,addSolidObject,removeSolidObject,SOLID_OBJECTS} = useStemFluid(
-        {SIZE,visc:.000000001,diff:0.00001});
+    const {FLUID, addSolidObject, removeSolidObject, SOLID_OBJECTS} = useStemFluid(
+        {
+            SIZE,
+            visc: 0.000001,
+            diff: 0.000001
+        }
+    );
 
-    const CELL_WIDTH = CANVAS_WIDTH / SIZE;
-    const CELL_HEIGHT = CANVAS_HEIGHT / SIZE;
+    const {renderScene, setCanvasRef} = use2DContextRender({SIZE, CANVAS_WIDTH, CANVAS_HEIGHT});
 
-    setInterval(() => {
-       /*for (let y = 0; y < SIZE; y++) {
-           if (Math.abs(y-SIZE/2) < 3){
-               FLUID.addForce(SIZE-1 , y, -1000, 0)
-               FLUID.addDensity(SIZE-1 , y, 500);
-           }
-        }*/
-        FLUID.addForce(SIZE-1 , 32, -1300, 0);
-        FLUID.addDensity(SIZE-1 , 32, 1500);
-        FLUID.step(FPS);
-    }, FPS / 1000);
-
-    const colorScale = new ColorScale(0, 5, ["#000000","#ff5c5c", "#faff7a"]);
-
-    const draw = useCallback(g => {
+    const startRenderingCycle = useCallback(() => {
         setInterval(() => {
-            g.clear();
-            for (let y = 0; y < SIZE; y++) {
-                for (let x = 0; x < SIZE; x++) {
-                    const [velocityX, velocityY] = FLUID.velocityAt(x, y);
-                    let density = FLUID.densityAt(x, y);
-                    const color = colorScale.getColor(density);
-                    g.beginFill(rgbToHex([color?.r, color?.g, color?.b]), 1);
-                    g.drawRect(CELL_WIDTH * x, CELL_HEIGHT * y, CELL_WIDTH, CELL_HEIGHT);
+            FLUID.addForce(SIZE - 3, 16, -500, 0);
+            FLUID.addDensity(SIZE - 3, 16, 20);
 
-                    if (SOLID_OBJECTS[IX(SIZE,x,y)]){
-                        g.beginFill(rgbToHex([255,255,255]), 1);
-                        g.drawRect(CELL_WIDTH * x, CELL_HEIGHT * y, CELL_WIDTH, CELL_HEIGHT);
-                    }
+            FLUID.step(FLUID_UPDATE_INTERVAL_S);
+
+           /* for (let y = 0; y < SIZE; y++) {
+                if (Math.abs(y - SIZE / 2) < 20) {
+                    FLUID.addForce(SIZE - 1, y, -1000, 0)
+                    FLUID.addDensity(SIZE - 1, y, 100);
                 }
-            }
-            g.endFill()
-        }, FPS / 1000);
+            }*/
+
+
+            renderScene({SOLID_OBJECTS, FLUID});
+        }, FLUID_UPDATE_INTERVAL_S * 1000);
     }, []);
 
 
@@ -71,7 +46,6 @@ export const useWorkspace = ({CANVAS_WIDTH, CANVAS_HEIGHT, SIZE}) => {
         rightMouseDown: false,
         middleMouseDown: false
     }
-
     const handleControls = (e) => {
         if (e._reactName === 'onMouseMove') {
             const nativeX = e.nativeEvent.offsetX;
@@ -86,8 +60,12 @@ export const useWorkspace = ({CANVAS_WIDTH, CANVAS_HEIGHT, SIZE}) => {
                 FLUID.addForce(x, y, e.movementX * 20, e.movementY * 20);
             }
 
+            if (activeControls.rightMouseDown) {
+                removeSolidObject(x, y);
+            }
+
             if (activeControls.middleMouseDown) {
-                addSolidObject(x,y);
+                addSolidObject(x, y);
             }
         }
 
@@ -121,6 +99,6 @@ export const useWorkspace = ({CANVAS_WIDTH, CANVAS_HEIGHT, SIZE}) => {
     }
 
 
-    return {draw, handleControls}
+    return {startRenderingCycle, setCanvasRef, handleControls}
 
 }
