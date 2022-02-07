@@ -1,39 +1,76 @@
-const use2DContextRender = ({SIZE, CANVAS_WIDTH, CANVAS_HEIGHT}) => {
-    const canvas = {
-        width: CANVAS_WIDTH,
-        height: CANVAS_HEIGHT,
-        cellWidth: CANVAS_WIDTH / SIZE,
-        cellHeight: CANVAS_HEIGHT / SIZE,
-        cellCount: SIZE,
-        context: null,
-        ref: null,
-    };
+import ColorScale from 'color-scales';
+import * as PIXI from 'pixi.js';
+import { useCallback, useContext } from 'react';
 
-    const setCanvasRef = (canvasRef) => {
-        canvas.ref = canvasRef;
-        canvas.context = canvasRef.current.getContext('2d');
-    }
+import ResponsibleSizeContext from '../contexts/ResponsibleSize';
 
-    console.log(canvas);
+import { IX } from './StemFluid';
 
-    const renderScene = ({SOLID_OBJECTS, FLUID}) => {
-        const imgData = canvas.context.createImageData(10, 10);
+const rgbToNormalLimit = (rgb) => [rgb[0] / 255, rgb[1] / 255, rgb[2] / 255];
 
+const rgbToHex = (rgb) => PIXI.utils.rgb2hex(rgbToNormalLimit(rgb));
 
-        for (let i = 0; i < imgData.data.length; i += 4) {
-            const FLUID_INDEX = Math.floor(i / 4);
-            //const CELL_DENSITY = FLUID.x[FLUID_INDEX];
+const drawCell = (graphics, x, y, width, height, hexColor, offset) => {
+  graphics.beginFill(hexColor, 1);
+  graphics.drawRect(offset.x + width * x, offset.y + height * y, width, height);
+};
 
-            imgData.data[i] = 255;
-            imgData.data[i+1] = 123;
-            imgData.data[i+2] = 12;
-            imgData.data[i+3] = 255;
+const use2DContextRender = ({ SIMULATION_RESOLUTION }) => {
+  // const colorScale = new ColorScale(0, 4, ["#000000","#ff5c5c", "#faff7a"]);
+  const colorScale = new ColorScale(0, 2, [
+    '#000000',
+    '#0024ff',
+    '#02c3ff',
+    '#00ff33',
+    '#ffea13',
+    '#ff1111',
+  ]);
+
+  const { canvasWidth, canvasHeight } = useContext(ResponsibleSizeContext);
+  const renderScene = useCallback(
+    ({ graphics, BOUND_OBJECTS, FLUID }) => {
+      const CELL_WIDTH = canvasWidth / SIMULATION_RESOLUTION;
+      const CELL_HEIGHT = canvasHeight / SIMULATION_RESOLUTION;
+
+      const OFFSET = {
+        x: -CELL_WIDTH,
+        y: -CELL_HEIGHT,
+      };
+
+      graphics.clear();
+      for (let y = 1; y <= SIMULATION_RESOLUTION; y += 1) {
+        for (let x = 1; x <= SIMULATION_RESOLUTION; x += 1) {
+          const [velocityX, velocityY] = FLUID.velocityAt(x, y);
+          const density = FLUID.densityAt(x, y);
+          if (isNaN(density)) {
+            FLUID.clear();
+            return;
+          }
+          const color = colorScale.getColor(density);
+          const hexColor = rgbToHex([color?.r, color?.g, color?.b]);
+          drawCell(graphics, x, y, CELL_WIDTH, CELL_HEIGHT, hexColor, OFFSET);
+
+          if (BOUND_OBJECTS[IX(SIMULATION_RESOLUTION, x, y)]) {
+            const whiteColor = rgbToHex([255, 255, 255]);
+            drawCell(
+              graphics,
+              x,
+              y,
+              CELL_WIDTH,
+              CELL_HEIGHT,
+              whiteColor,
+              OFFSET,
+            );
+          }
         }
+      }
 
-        canvas.context.putImageData(imgData,0,0);
-    }
+      graphics.endFill();
+    },
+    [SIMULATION_RESOLUTION, canvasHeight, canvasWidth],
+  );
 
-    return {renderScene, setCanvasRef}
-}
+  return { renderScene };
+};
 
-export {use2DContextRender}
+export { use2DContextRender };
