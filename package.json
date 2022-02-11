@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@craco/craco": "^6.4.3",
     "@inlet/react-pixi": "^6.6.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -11,6 +12,7 @@
     "antd": "^4.18.5",
     "axios": "^0.24.0",
     "color-scales": "^3.0.2",
+    "craco-less": "^2.0.0",
     "font-proxima-nova": "^1.0.1",
     "howler": "2.2.1",
     "i18next": "^21.5.3",
@@ -45,10 +47,10 @@
     "prettier": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [

@@ -36,7 +36,7 @@ const MainLayout = ({ children }) => {
           <Breadcrumb.Item>Hospital 2</Breadcrumb.Item>
         </S.AntdBreadcrumb>
         <S.MainContentLayout>
-          <Sider width={200}>
+          <Sider>
             <S.AntdSiderMenu
               mode="inline"
               defaultOpenKeys={['sub1']}
@@ -66,15 +66,7 @@ const MainLayout = ({ children }) => {
               </SubMenu>
             </S.AntdSiderMenu>
           </Sider>
-          <Content
-            style={{
-              padding: '24px 24px',
-              minHeight: 280,
-              background: 'white',
-            }}
-          >
-            {children}
-          </Content>
+          <S.AntdContent>{children}</S.AntdContent>
         </S.MainContentLayout>
       </S.AntdContainer>
       <S.AntdFooter style={{ textAlign: 'center' }}>

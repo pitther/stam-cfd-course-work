@@ -9,4 +9,4 @@ const themeColors = {
   light: '#EDF5E1',
 };
 
-export { themeColors };
+module.exports.themeColors = themeColors;

@@ -38,6 +38,7 @@ const Canvas = () => {
   }, []);
 
   useEffect(() => {
+    handleResize();
     stageRef.current.app.renderer.resize(canvasWidth, canvasHeight);
   }, [canvasHeight, canvasWidth]);
 
