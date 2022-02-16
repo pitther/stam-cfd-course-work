@@ -8,7 +8,7 @@ export const GlobalStyles = createGlobalStyle`
   html, body {
     height: 100%;
     margin: 0;
-    background-color: ${themeColors.mainContent};
+    background-color: ${themeColors.light};
     font-family: 'Proxima Nova Rg', sans-serif;
     font-weight: 600;
     font-size: 16px;
@@ -23,7 +23,19 @@ export const GlobalStyles = createGlobalStyle`
     height: max(100px, 6vh);
     opacity: 0.8;
     user-select: none;
-    display: none;
+    //display: none;
+  }
+
+  .ant-menu-item-active {
+    span > svg {
+      color: ${themeColors.accent} !important;
+    }
+  }
+
+  .ant-menu-item-selected {
+    span > svg {
+      color: ${themeColors.accent} !important;
+    }
   }
 
 `;

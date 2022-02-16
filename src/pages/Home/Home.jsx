@@ -1,5 +1,3 @@
-import Workspace from '../Workspace';
-
 import * as S from './Home.styled';
 
 const Home = () => <S.Main />;

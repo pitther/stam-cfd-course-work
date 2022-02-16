@@ -1,3 +1,5 @@
+import * as PIXI from 'pixi.js';
+import { addStats } from 'pixi-stats';
 import { useContext, useEffect, useRef } from 'react';
 import { Graphics, Stage } from '@inlet/react-pixi';
 
@@ -30,15 +32,14 @@ const Canvas = () => {
     window.addEventListener('resize', handleResize);
     handleResize();
 
-    /* const stats = addStats(document, stageRef.current);
-        const ticker = PIXI.Ticker.shared;
-        ticker.add(stats.update, stats, 1); */
+    const stats = addStats(document, stageRef.current);
+    const ticker = PIXI.Ticker.shared;
+    ticker.add(stats.update, stats, 1);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    handleResize();
     stageRef.current.app.renderer.resize(canvasWidth, canvasHeight);
   }, [canvasHeight, canvasWidth]);
 

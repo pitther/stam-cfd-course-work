@@ -51,14 +51,15 @@ const use2DContextRender = ({ SIMULATION_RESOLUTION }) => {
           drawCell(graphics, x, y, CELL_WIDTH, CELL_HEIGHT, hexColor, OFFSET);
 
           if (BOUND_OBJECTS[IX(SIMULATION_RESOLUTION, x, y)]) {
-            const whiteColor = rgbToHex([255, 255, 255]);
+            // rgb(115, 118, 120)
+            const boundColor = rgbToHex([255, 255, 255]);
             drawCell(
               graphics,
               x,
               y,
               CELL_WIDTH,
               CELL_HEIGHT,
-              whiteColor,
+              boundColor,
               OFFSET,
             );
           }

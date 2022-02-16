@@ -1,4 +1,5 @@
 import { Breadcrumb, Layout, Menu } from 'antd';
+import { FaFan, GiDoor, GiWindow, MdOutlineAir } from 'react-icons/all';
 import {
   LaptopOutlined,
   NotificationOutlined,
@@ -36,36 +37,41 @@ const MainLayout = ({ children }) => {
           <Breadcrumb.Item>Hospital 2</Breadcrumb.Item>
         </S.AntdBreadcrumb>
         <S.MainContentLayout>
-          <Sider>
-            <S.AntdSiderMenu
-              mode="inline"
-              defaultOpenKeys={['sub1']}
-              style={{ height: '100%' }}
-            >
+          <S.SiderMenuWrapper>
+            <S.AntdSiderMenu mode="inline">
               <SubMenu key="sub1" icon={<UserOutlined />} title="Environment">
-                <Menu.Item key="1">option1</Menu.Item>
-                <Menu.Item key="2">option2</Menu.Item>
-                <Menu.Item key="3">option3</Menu.Item>
-                <Menu.Item key="4">option4</Menu.Item>
+                <S.MenuItem key="1">Wind force</S.MenuItem>
+                <S.MenuItem key="2">Wind direction</S.MenuItem>
               </SubMenu>
               <SubMenu key="sub2" icon={<LaptopOutlined />} title="Objects">
-                <Menu.Item key="5">option5</Menu.Item>
-                <Menu.Item key="6">option6</Menu.Item>
-                <Menu.Item key="7">option7</Menu.Item>
-                <Menu.Item key="8">321</Menu.Item>
+                <S.MenuItem key="5">
+                  <GiDoor />
+                  Door
+                </S.MenuItem>
+                <S.MenuItem key="6">
+                  <GiWindow /> Window
+                </S.MenuItem>
+                <S.MenuItem key="7">
+                  <MdOutlineAir />
+                  Went
+                </S.MenuItem>
+                <S.MenuItem key="8">
+                  <FaFan />
+                  Fan
+                </S.MenuItem>
               </SubMenu>
               <SubMenu
                 key="sub3"
                 icon={<NotificationOutlined />}
                 title="Forces"
               >
-                <Menu.Item key="9">option9</Menu.Item>
-                <Menu.Item key="10">option10</Menu.Item>
-                <Menu.Item key="11">option11</Menu.Item>
-                <Menu.Item key="12">option12</Menu.Item>
+                <S.MenuItem key="9">option9</S.MenuItem>
+                <S.MenuItem key="10">option10</S.MenuItem>
+                <S.MenuItem key="11">option11</S.MenuItem>
+                <S.MenuItem key="12">option12</S.MenuItem>
               </SubMenu>
             </S.AntdSiderMenu>
-          </Sider>
+          </S.SiderMenuWrapper>
           <S.AntdContent>{children}</S.AntdContent>
         </S.MainContentLayout>
       </S.AntdContainer>

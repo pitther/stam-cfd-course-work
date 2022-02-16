@@ -1,14 +1,11 @@
-import { ConfigProvider } from 'antd';
+import './styles/App.less';
 
 import ResponsibleSizeContext from './contexts/ResponsibleSize';
 import useResponsibleSize from './hooks/UseResponsibleSize';
 import Routes from './routes/Routes';
-import { themeColors } from './styles/theme';
 import { GlobalStyles } from './styles/Global.styled';
 
 import './styles/normalize.css';
-import './styles/App.less';
-
 
 function App() {
   const responsibleSize = useResponsibleSize();
