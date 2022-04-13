@@ -15,8 +15,7 @@ const drawCell = (graphics, x, y, width, height, hexColor, offset) => {
   graphics.drawRect(offset.x + width * x, offset.y + height * y, width, height);
 };
 
-const use2DContextRender = ({ SIMULATION_RESOLUTION }) => {
-  // const colorScale = new ColorScale(0, 4, ["#000000","#ff5c5c", "#faff7a"]);
+const use2DContextRender = () => {
   const colorScale = new ColorScale(0, 2, [
     '#000000',
     '#0024ff',
@@ -28,7 +27,7 @@ const use2DContextRender = ({ SIMULATION_RESOLUTION }) => {
 
   const { canvasWidth, canvasHeight } = useContext(ResponsibleSizeContext);
   const renderScene = useCallback(
-    ({ graphics, BOUND_OBJECTS, FLUID }) => {
+    ({ graphics, BOUND_OBJECTS, FLUID, SIMULATION_RESOLUTION }) => {
       const CELL_WIDTH = canvasWidth / SIMULATION_RESOLUTION;
       const CELL_HEIGHT = canvasHeight / SIMULATION_RESOLUTION;
 
@@ -37,13 +36,13 @@ const use2DContextRender = ({ SIMULATION_RESOLUTION }) => {
         y: -CELL_HEIGHT,
       };
 
-      graphics.clear();
+      graphics?.clear();
       for (let y = 1; y <= SIMULATION_RESOLUTION; y += 1) {
         for (let x = 1; x <= SIMULATION_RESOLUTION; x += 1) {
           const [velocityX, velocityY] = FLUID.velocityAt(x, y);
           const density = FLUID.densityAt(x, y);
           if (isNaN(density)) {
-            FLUID.clear();
+            FLUID?.clear();
             return;
           }
           const color = colorScale.getColor(density);
@@ -68,7 +67,7 @@ const use2DContextRender = ({ SIMULATION_RESOLUTION }) => {
 
       graphics.endFill();
     },
-    [SIMULATION_RESOLUTION, canvasHeight, canvasWidth],
+    [canvasHeight, canvasWidth],
   );
 
   return { renderScene };

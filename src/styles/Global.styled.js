@@ -15,6 +15,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   #stats {
+    display: none;
     position: fixed;
     top: 0;
     right: 0;
@@ -23,7 +24,6 @@ export const GlobalStyles = createGlobalStyle`
     height: max(100px, 6vh);
     opacity: 0.8;
     user-select: none;
-    //display: none;
   }
 
   .ant-menu-item-active {

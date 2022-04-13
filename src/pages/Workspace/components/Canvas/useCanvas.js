@@ -4144,9 +4144,7 @@ export const useCanvas = ({
       diff: 0.0,
     });
 
-  const { renderScene } = use2DContextRender({
-    SIMULATION_RESOLUTION,
-  });
+  const { renderScene } = use2DContextRender();
 
   const intervalRef = useRef(null);
 
@@ -4155,6 +4153,7 @@ export const useCanvas = ({
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
+
       intervalRef.current = setInterval(() => {
         addForces(FLUID, SIMULATION_RESOLUTION);
         FLUID.step(FLUID_UPDATE_INTERVAL_S);
@@ -4162,6 +4161,7 @@ export const useCanvas = ({
           graphics,
           BOUND_OBJECTS,
           FLUID,
+          SIMULATION_RESOLUTION,
         });
       }, FLUID_UPDATE_INTERVAL_S * 1000);
 
@@ -4171,6 +4171,10 @@ export const useCanvas = ({
     },
     [SIMULATION_RESOLUTION, BOUND_OBJECTS, renderScene],
   );
+
+  const stopRenderingCycle = () => {
+    clearInterval(intervalRef.current);
+  };
 
   const activeControls = {
     leftMouseDown: false,
@@ -4237,5 +4241,5 @@ export const useCanvas = ({
     return false;
   };
 
-  return { startRenderingCycle, handleControls };
+  return { startRenderingCycle, handleControls, stopRenderingCycle };
 };
