@@ -39,8 +39,9 @@ const use2DContextRender = () => {
       graphics?.clear();
       for (let y = 1; y <= SIMULATION_RESOLUTION; y += 1) {
         for (let x = 1; x <= SIMULATION_RESOLUTION; x += 1) {
-          const [velocityX, velocityY] = FLUID.velocityAt(x, y);
+          // const [velocityX, velocityY] = FLUID.velocityAt(x, y);
           const density = FLUID.densityAt(x, y);
+          // eslint-disable-next-line no-restricted-globals
           if (isNaN(density)) {
             FLUID?.clear();
             return;
@@ -67,6 +68,7 @@ const use2DContextRender = () => {
 
       graphics.endFill();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [canvasHeight, canvasWidth],
   );
 

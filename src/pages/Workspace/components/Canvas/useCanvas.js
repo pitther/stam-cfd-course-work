@@ -4169,6 +4169,7 @@ export const useCanvas = ({
         clearInterval(intervalRef.current);
       };
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [SIMULATION_RESOLUTION, BOUND_OBJECTS, renderScene],
   );
 
@@ -4183,6 +4184,7 @@ export const useCanvas = ({
   };
 
   const handleControls = (e) => {
+    // eslint-disable-next-line no-underscore-dangle
     if (e._reactName === 'onMouseMove') {
       const nativeX = e.nativeEvent.offsetX;
       const nativeY = e.nativeEvent.offsetY;
@@ -4212,6 +4214,7 @@ export const useCanvas = ({
       }
     }
 
+    // eslint-disable-next-line no-underscore-dangle
     if (e._reactName === 'onMouseDown') {
       if (e.button === 2) {
         activeControls.rightMouseDown = true;
@@ -4224,6 +4227,7 @@ export const useCanvas = ({
       }
     }
 
+    // eslint-disable-next-line no-underscore-dangle
     if (e._reactName === 'onMouseUp') {
       if (e.button === 2) {
         activeControls.rightMouseDown = false;

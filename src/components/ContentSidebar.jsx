@@ -10,10 +10,8 @@ import * as S from './ContentSidebar.styled';
 
 const { SubMenu } = Menu;
 
-const ContentSidebar = ({ children, scheme }) => {
-  console.log('Remove it when reformat will be okay');
-
-  return (
+const ContentSidebar = ({ children, scheme }) => (
+  <>
     <S.SiderMenuWrapper>
       <S.AntdSiderMenu mode="inline">
         <SubMenu key="sub1" icon={<UserOutlined />} title="Environment">
@@ -48,8 +46,8 @@ const ContentSidebar = ({ children, scheme }) => {
         <div>{children}</div>
       </S.AntdContent>
     </S.SiderMenuWrapper>
-  );
-};
+  </>
+);
 
 ContentSidebar.propTypes = {};
 

@@ -1,10 +1,19 @@
-import * as S from './Profile.styled';
+import { Breadcrumb } from 'antd';
 
-const Profile = () => {
-  console.log('Remove it when reformat will be okay');
+import {
+  AntdBreadcrumb,
+  MainContentLayout,
+} from '../../components/Layout/Layout.styled';
 
-  return <S.Main>Profile works</S.Main>;
-};
+const Profile = () => (
+  <>
+    <AntdBreadcrumb>
+      <Breadcrumb.Item>Users</Breadcrumb.Item>
+      <Breadcrumb.Item>Zhaba1945</Breadcrumb.Item>
+    </AntdBreadcrumb>
+    <MainContentLayout>Your profile</MainContentLayout>
+  </>
+);
 
 Profile.propTypes = {};
 

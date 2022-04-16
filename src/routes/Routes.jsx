@@ -12,22 +12,22 @@ const Routes = () => (
   <Router>
     <Switch>
       <Route path={paths.LOGIN}>
-        <Layout>
+        <Layout selectedTab="1">
           <Login />
         </Layout>
       </Route>
       <Route path={paths.WORKSPACE}>
-        <Layout>
+        <Layout selectedTab="3">
           <Workspace />
         </Layout>
       </Route>
       <Route path={paths.PROFILE}>
-        <Layout>
+        <Layout selectedTab="2">
           <Profile />
         </Layout>
       </Route>
       <Route path={paths.HOME}>
-        <Layout>
+        <Layout selectedTab="1">
           <Home />
         </Layout>
       </Route>

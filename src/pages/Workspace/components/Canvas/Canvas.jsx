@@ -44,7 +44,7 @@ const Canvas = () => {
   }, []);
 
   useEffect(() => {
-    stageRef.current.app.renderer.resize(canvasWidth, canvasHeight);
+    stageRef.current?.app.renderer.resize(canvasWidth, canvasHeight);
   }, [canvasHeight, canvasWidth]);
 
   return (

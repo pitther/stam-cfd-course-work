@@ -1,6 +1,10 @@
-import * as S from './Home.styled';
+import { MainContentLayout } from '../../components/Layout/Layout.styled';
 
-const Home = () => <S.Main>Home</S.Main>;
+const Home = () => (
+  <>
+    <MainContentLayout>Home</MainContentLayout>
+  </>
+);
 
 Home.propTypes = {};
 
