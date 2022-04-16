@@ -211,10 +211,10 @@ class Fluid {
   }
 
   /*
-                Function of dealing with situation with boundary cells.
-                - b : int
-                - x : float[]
-            */
+                  Function of dealing with situation with boundary cells.
+                  - b : int
+                  - x : float[]
+              */
 
   setBnd(N, b, x) {
     for (let i = 1; i <= N; i += 1) {

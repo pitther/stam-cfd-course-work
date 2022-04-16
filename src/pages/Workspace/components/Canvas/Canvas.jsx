@@ -51,6 +51,7 @@ const Canvas = () => {
     <S.Wrapper>
       <S.Container ref={containerRef}>
         <Stage
+          id="canvas-video"
           ref={stageRef}
           onMouseDown={handleControls}
           onMouseUp={handleControls}

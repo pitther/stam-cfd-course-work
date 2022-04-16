@@ -1,9 +1,20 @@
-import { MainContentLayout } from '../../components/Layout/Layout.styled';
+import { Button } from 'antd';
+import { Link } from 'react-router-dom';
+
+import logo from '../../resources/images/logo.png';
+import * as paths from '../../routes/paths';
+
+import * as S from './Home.styled';
 
 const Home = () => (
-  <>
-    <MainContentLayout>Home</MainContentLayout>
-  </>
+  <S.Wrapper>
+    <S.Container>
+      <img src={logo} alt="" />
+      <Button type="primary" ghost size="large">
+        <Link to={paths.LOGIN}>JOIN NOW</Link>
+      </Button>
+    </S.Container>
+  </S.Wrapper>
 );
 
 Home.propTypes = {};

@@ -26,12 +26,6 @@ const addForces = (FLUID, SIZE) => {
   }
 };
 
-/*
-const SOLID_OBJECTS_CLEAR = new Array(
-  SIMULATION_RESOLUTION * SIMULATION_RESOLUTION,
-).fill(false);
-*/
-
 const SOLID_OBJECTS_MAP1 = [
   false,
   false,
@@ -4136,6 +4130,10 @@ export const useCanvas = ({
   canvasWidth,
   canvasHeight,
 }) => {
+  const SOLID_OBJECTS_CLEAR = new Array(
+    SIMULATION_RESOLUTION * SIMULATION_RESOLUTION,
+  ).fill(false);
+
   const { FLUID, addSolidObject, removeSolidObject, BOUND_OBJECTS } =
     useStemFluid({
       SIMULATION_RESOLUTION,
