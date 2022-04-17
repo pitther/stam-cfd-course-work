@@ -37,5 +37,4 @@ export const GlobalStyles = createGlobalStyle`
       color: ${themeColors.accent} !important;
     }
   }
-
 `;

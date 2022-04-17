@@ -19,19 +19,23 @@ const MainLayout = ({ children, selectedTab }) => {
             <img src={logo} alt="logo" />
           </a>
         </S.Logo>
-        <S.AntdMenu mode="horizontal" defaultSelectedKeys={[selectedTab]}>
-          <Menu.Item key="1">
+        <S.AntdMenu mode="horizontal" selectedKeys={[selectedTab]}>
+          <Menu.Item key={paths.HOME}>
             <Link to={paths.HOME}>HOME</Link>
           </Menu.Item>
-          {loggedIn && (
+          {loggedIn ? (
             <>
-              <Menu.Item key="2">
+              <Menu.Item key={paths.PROFILE}>
                 <Link to={paths.PROFILE}>PROFILE</Link>
               </Menu.Item>
-              <Menu.Item key="3">
+              <Menu.Item key={paths.WORKSPACE}>
                 <Link to={paths.WORKSPACE}>WORKSPACE</Link>
               </Menu.Item>
             </>
+          ) : (
+            <Menu.Item key={paths.LOGIN}>
+              <Link to={paths.LOGIN}>LOGIN</Link>
+            </Menu.Item>
           )}
         </S.AntdMenu>
       </S.AntdHeader>
