@@ -12,7 +12,8 @@ export const Wrapper = styled.div`
 export const Container = styled.div`
   width: 100%;
   max-width: 500px;
-  display: flex;
+  display: grid;
+  grid-gap: 1rem;
   flex-direction: column;
 `;
 
@@ -28,7 +29,7 @@ export const OverImage = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: url(${({ img }) => img});
+  /* background: url(${({ img }) => img});*/
 
   background-size: cover;
   aspect-ratio: 1;
@@ -39,14 +40,14 @@ export const Title = styled.div`
   width: 100%;
   text-align: center;
   color: ${themeColors.accent};
-  text-shadow: 4px 0px 0px rgba(150, 150, 150, 1);
+  text-shadow: 4px 0 0 grey;
 `;
 export const Subtitle = styled.div`
-  font-weight: normal;
+  font-weight: bold;
   font-size: 20%;
   text-align: center;
-  color: ${themeColors.accent};
-  text-shadow: 1px 0px 0px rgba(150, 150, 150, 1);
+
+  text-shadow: 1px 0 0 grey;
 `;
 
 export const Text = styled.div``;

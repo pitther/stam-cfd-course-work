@@ -7,17 +7,14 @@ import UserContext from '../../contexts/UserContext';
 import * as S from './Login.styled';
 
 const Login = () => {
-  const { userName, loggedIn, setLoggedIn } = useContext(UserContext);
+  const { loggedIn, setLoggedIn } = useContext(UserContext);
   const history = useHistory();
-  const onFinish = (values) => {
-    console.log('Success:', values);
+  const onFinish = () => {
     setLoggedIn(!loggedIn);
     history.push('/profile');
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = () => {};
   return (
     <S.Wrapper>
       <S.Container>
@@ -63,7 +60,7 @@ const Login = () => {
             </S.FormWrapper>
           </>
         ) : (
-          <S.Header>You're already logged in</S.Header>
+          <S.Header>You`re already logged in</S.Header>
         )}
       </S.Container>
     </S.Wrapper>

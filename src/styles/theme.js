@@ -7,6 +7,7 @@ const themeColors = {
   default: '#5CDB95',
   defaultLight: '#8EE4AF',
   light: '#EDF5E1',
+  red: '#ff5c5c',
 };
 
 module.exports.themeColors = themeColors;

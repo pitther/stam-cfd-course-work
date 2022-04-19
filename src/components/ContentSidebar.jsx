@@ -10,7 +10,7 @@ import * as S from './ContentSidebar.styled';
 
 const { SubMenu } = Menu;
 
-const ContentSidebar = ({ children, scheme }) => (
+const ContentSidebar = ({ children }) => (
   <>
     <S.SiderMenuWrapper>
       <S.AntdSiderMenu mode="inline">

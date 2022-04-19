@@ -19,7 +19,8 @@ const Home = () => {
               ICFD <S.Subtitle>indoor computational fluid dynamics</S.Subtitle>
             </S.Title>
           </S.OverImage>
-
+        </S.Block>
+        <S.Block>
           <S.Text>
             based on{' '}
             <a
@@ -27,15 +28,17 @@ const Home = () => {
               href="http://graphics.cs.cmu.edu/nsp/course/15-464/Fall09/papers/StamFluidforGames.pdf"
               rel="noreferrer"
             >
-              Jos Stams's PDF 'real-time fluid dynamics for games'
+              Jos Stams`s PDF 'real-time fluid dynamics for games'
             </a>
           </S.Text>
         </S.Block>
-        <S.Block>
-          <Button type="primary" ghost size="large">
-            <Link to={paths.LOGIN}>JOIN NOW</Link>
-          </Button>
-        </S.Block>
+        {!loggedIn && (
+          <S.Block>
+            <Button type="primary" ghost size="large">
+              <Link to={paths.LOGIN}>JOIN NOW</Link>
+            </Button>
+          </S.Block>
+        )}
       </S.Container>
     </S.Wrapper>
   );
