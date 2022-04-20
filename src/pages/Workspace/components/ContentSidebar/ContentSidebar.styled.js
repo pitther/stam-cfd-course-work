@@ -1,7 +1,7 @@
 import { Layout, Menu } from 'antd';
 import styled from 'styled-components';
 
-import { themeColors } from '../styles/theme';
+import { themeColors } from '../../../../styles/theme';
 
 const { Content } = Layout;
 
@@ -9,7 +9,7 @@ const COLLAPSE_BREAKPOINT = 800;
 
 export const AntdMenu = styled(Menu)`
   height: 100%;
-  border-bottom: 0px;
+  border-bottom: 0;
 
   & > li {
     height: 100%;
@@ -56,7 +56,7 @@ export const AntdSiderMenu = styled(Menu)`
   height: 100%;
   max-width: 200px;
 
-  border-bottom: 0px;
+  border-bottom: 0;
 
   @media (max-width: ${COLLAPSE_BREAKPOINT}px) {
     width: 100% !important;

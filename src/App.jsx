@@ -1,7 +1,9 @@
 import 'antd/dist/antd.less';
 
+import LayoutContext from './contexts/LayoutContext';
 import ResponsibleSizeContext from './contexts/ResponsibleSize';
 import UserContext from './contexts/UserContext';
+import useLayout from './hooks/UseLayout';
 import useResponsibleSize from './hooks/UseResponsibleSize';
 import useUser from './hooks/UseUser';
 import SiteRoutes from './routes/SiteRoutes';
@@ -11,14 +13,17 @@ import './styles/normalize.css';
 
 function App() {
   const responsibleSize = useResponsibleSize();
+  const layout = useLayout();
   const user = useUser();
   return (
-    <ResponsibleSizeContext.Provider value={responsibleSize}>
-      <UserContext.Provider value={user}>
-        <GlobalStyles />
-        <SiteRoutes />
-      </UserContext.Provider>
-    </ResponsibleSizeContext.Provider>
+    <LayoutContext.Provider value={layout}>
+      <ResponsibleSizeContext.Provider value={responsibleSize}>
+        <UserContext.Provider value={user}>
+          <GlobalStyles />
+          <SiteRoutes />
+        </UserContext.Provider>
+      </ResponsibleSizeContext.Provider>
+    </LayoutContext.Provider>
   );
 }
 

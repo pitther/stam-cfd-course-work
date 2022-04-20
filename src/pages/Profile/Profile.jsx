@@ -1,5 +1,6 @@
 import { Breadcrumb, Divider, Statistic } from 'antd';
 import { useContext } from 'react';
+import { HiOutlineStatusOffline, HiOutlineStatusOnline } from 'react-icons/all';
 import {
   ClockCircleOutlined,
   ReadOutlined,
@@ -8,7 +9,10 @@ import {
   TeamOutlined,
 } from '@ant-design/icons';
 
+import LayoutContext from '../../contexts/LayoutContext';
 import UserContext from '../../contexts/UserContext';
+import { PROFILE } from '../../routes/paths';
+import { themeColors } from '../../styles/theme';
 
 import {
   AntdBreadcrumb,
@@ -18,14 +22,41 @@ import * as S from './Profile.styled';
 
 const Profile = () => {
   const { userName } = useContext(UserContext);
+  const { setCurrentTab } = useContext(LayoutContext);
+  const isUserOnline = true;
+  setCurrentTab(PROFILE);
   return (
     <>
       <AntdBreadcrumb>
         <Breadcrumb.Item>Users</Breadcrumb.Item>
-        <Breadcrumb.Item>Zhaba1945</Breadcrumb.Item>
+        <Breadcrumb.Item>{userName}</Breadcrumb.Item>
       </AntdBreadcrumb>
       <MainContentLayout>
-        <S.Profile title={userName} bordered={false}>
+        <S.ContentBox>
+          <S.ContentHeader>
+            <S.ProfileName>
+              {userName}
+              <S.ProfileOnlineStatusIcon>
+                {isUserOnline ? (
+                  <sup>
+                    <HiOutlineStatusOnline color={themeColors.header} />
+                  </sup>
+                ) : (
+                  <sup>
+                    <HiOutlineStatusOffline color={themeColors.accentLight} />
+                  </sup>
+                )}
+              </S.ProfileOnlineStatusIcon>
+            </S.ProfileName>
+            <S.ProfileOnlineStatus online={isUserOnline}>
+              {isUserOnline ? (
+                <S.ProfileOnlineStatusText>online</S.ProfileOnlineStatusText>
+              ) : (
+                <S.ProfileOnlineStatusText>offline</S.ProfileOnlineStatusText>
+              )}
+            </S.ProfileOnlineStatus>
+          </S.ContentHeader>
+
           <S.StatsContainer>
             <Statistic
               title="Stars total"
@@ -45,13 +76,12 @@ const Profile = () => {
               prefix={<ClockCircleOutlined />}
             />
           </S.StatsContainer>
-
           <Divider>Your maps</Divider>
           <p>Card content</p>
           <p>Card content</p>
 
           <Divider>Danger zone</Divider>
-        </S.Profile>
+        </S.ContentBox>
       </MainContentLayout>
     </>
   );
