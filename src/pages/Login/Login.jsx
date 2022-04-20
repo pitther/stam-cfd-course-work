@@ -1,6 +1,6 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import UserContext from '../../contexts/UserContext';
 
@@ -8,10 +8,10 @@ import * as S from './Login.styled';
 
 const Login = () => {
   const { loggedIn, setLoggedIn } = useContext(UserContext);
-  const history = useHistory();
+  const history = useNavigate();
   const onFinish = () => {
     setLoggedIn(!loggedIn);
-    history.push('/profile');
+    history('/profile');
   };
 
   const onFinishFailed = () => {};
