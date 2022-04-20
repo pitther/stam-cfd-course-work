@@ -1,4 +1,4 @@
-import './styles/App.less';
+import 'antd/dist/antd.less';
 
 import ResponsibleSizeContext from './contexts/ResponsibleSize';
 import UserContext from './contexts/UserContext';

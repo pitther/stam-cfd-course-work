@@ -1,4 +1,4 @@
-const themeColors = {
+export const themeColors = {
   header: '#5CDB95',
   mainContent: '#f0f2f5',
   accent: '#08539e',
@@ -9,5 +9,3 @@ const themeColors = {
   light: '#EDF5E1',
   red: '#ff5c5c',
 };
-
-module.exports.themeColors = themeColors;
