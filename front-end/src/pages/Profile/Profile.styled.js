@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 
-import { themeColors } from '../../styles/theme';
+import { sizes, themeColors } from '../../styles/theme';
 
 export const ContentBox = styled.div`
   background: white;
   width: 100%;
+  max-width: ${sizes.maxWidthContent}px;
+  margin: 0 auto;
   padding: 2rem 2rem 2rem;
 `;
 

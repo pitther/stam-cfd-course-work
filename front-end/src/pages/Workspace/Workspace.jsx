@@ -1,5 +1,5 @@
 import { Breadcrumb } from 'antd';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 import LayoutContext from '../../contexts/LayoutContext';
 import { WORKSPACE } from '../../routes/paths';
@@ -16,7 +16,10 @@ const workspaceMenuScheme = [];
 
 const Workspace = () => {
   const { setCurrentTab } = useContext(LayoutContext);
-  setCurrentTab(WORKSPACE);
+
+  useEffect(() => {
+    setCurrentTab(WORKSPACE);
+  }, [setCurrentTab]);
   return (
     <>
       <AntdBreadcrumb>

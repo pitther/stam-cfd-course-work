@@ -3,14 +3,14 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Layout from '../components/Layout';
 import UserContext from '../contexts/UserContext';
-import NoMatch from '../pages/NoMatch';
+import Browse from '../pages/Browse';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
+import NoMatch from '../pages/NoMatch';
 import Profile from '../pages/Profile';
 import Workspace from '../pages/Workspace';
 
 import * as paths from './paths';
-import Browse from '../pages/Browse';
 
 const SiteRoutes = () => {
   const { loggedIn } = useContext(UserContext);

@@ -26,7 +26,7 @@ const addForces = (FLUID, SIZE) => {
   }
 };
 
-/* const SOLID_OBJECTS_MAP1 = [
+const SOLID_OBJECTS_MAP1 = [
   false,
   false,
   false,
@@ -4123,7 +4123,7 @@ const addForces = (FLUID, SIZE) => {
   false,
   false,
   false,
-]; */
+];
 
 export const useCanvas = ({
   SIMULATION_RESOLUTION,
@@ -4137,9 +4137,9 @@ export const useCanvas = ({
   const { FLUID, addSolidObject, removeSolidObject, BOUND_OBJECTS } =
     useStemFluid({
       SIMULATION_RESOLUTION,
-      BOUND_OBJECTS: SOLID_OBJECTS_CLEAR,
+      BOUND_OBJECTS: SOLID_OBJECTS_MAP1,
       visc: 0.0,
-      diff: 0.025,
+      diff: 0.0002,
     });
 
   const { renderScene } = use2DContextRender();

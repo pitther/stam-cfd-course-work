@@ -9,3 +9,8 @@ export const themeColors = {
   light: '#EDF5E1',
   red: '#ff5c5c',
 };
+
+export const sizes = {
+  maxWidthContent: 900,
+  maxWidthLogin: 500,
+};

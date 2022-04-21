@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { sizes } from '../../styles/theme';
+
 export const Wrapper = styled.div`
   width: 100%;
   margin-top: 1rem;
@@ -19,7 +21,7 @@ export const Container = styled.div`
 
 export const FormWrapper = styled.div`
   width: 100%;
-  max-width: 500px;
+  max-width: ${sizes.maxWidthLogin}px;
 `;
 
 export const Header = styled.div`

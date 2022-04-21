@@ -37,8 +37,8 @@ const Canvas = () => {
     };
 
     /* const stats = addStats(document, stageRef.current);
-    const ticker = PIXI.Ticker.shared;
-    ticker.add(stats.update, stats, 1); */
+        const ticker = PIXI.Ticker.shared;
+        ticker.add(stats.update, stats, 1); */
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

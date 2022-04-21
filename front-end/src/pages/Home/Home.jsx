@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import LayoutContext from '../../contexts/LayoutContext';
@@ -13,7 +13,10 @@ import * as S from './Home.styled';
 const Home = () => {
   const { loggedIn } = useContext(UserContext);
   const { setCurrentTab } = useContext(LayoutContext);
-  setCurrentTab(HOME);
+
+  useEffect(() => {
+    setCurrentTab(HOME);
+  }, [setCurrentTab]);
 
   return (
     <S.Wrapper>

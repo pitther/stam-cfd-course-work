@@ -1,5 +1,5 @@
 import { Button, Checkbox, Form, Input } from 'antd';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import LayoutContext from '../../contexts/LayoutContext';
@@ -11,7 +11,9 @@ import * as S from './Login.styled';
 const Login = () => {
   const { loggedIn, setLoggedIn } = useContext(UserContext);
   const { setCurrentTab } = useContext(LayoutContext);
-  setCurrentTab(LOGIN);
+  useEffect(() => {
+    setCurrentTab(LOGIN);
+  }, [setCurrentTab]);
 
   const history = useNavigate();
   const onFinish = () => {

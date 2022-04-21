@@ -1,5 +1,5 @@
 import { Breadcrumb, Divider, Statistic } from 'antd';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { HiOutlineStatusOffline, HiOutlineStatusOnline } from 'react-icons/all';
 import {
   ClockCircleOutlined,
@@ -24,7 +24,9 @@ const Profile = () => {
   const { userName } = useContext(UserContext);
   const { setCurrentTab } = useContext(LayoutContext);
   const isUserOnline = true;
-  setCurrentTab(PROFILE);
+  useEffect(() => {
+    setCurrentTab(PROFILE);
+  }, [setCurrentTab]);
   return (
     <>
       <AntdBreadcrumb>
