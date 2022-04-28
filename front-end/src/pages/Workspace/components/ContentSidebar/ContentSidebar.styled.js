@@ -18,16 +18,6 @@ export const AntdMenu = styled(Menu)`
   }
 `;
 
-export const SiderMenuWrapper = styled.div`
-  height: 100%;
-  width: 100%;
-  display: flex;
-
-  @media (max-width: ${COLLAPSE_BREAKPOINT}px) {
-    flex-direction: column;
-  }
-`;
-
 export const MenuItem = styled(Menu.Item)`
   width: 100%;
   display: flex !important;
@@ -63,11 +53,4 @@ export const AntdSiderMenu = styled(Menu)`
     max-width: 100% !important;
     min-width: 100% !important;
   }
-`;
-
-export const AntdContent = styled(Content)`
-  height: 100%;
-  padding: 1rem;
-  min-height: 280px;
-  background: white;
 `;

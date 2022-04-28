@@ -6,6 +6,7 @@ import { WORKSPACE } from '../../routes/paths';
 
 import Canvas from './components/Canvas';
 import ContentSidebar from './components/ContentSidebar';
+import ToolPanel from './components/ToolPanel';
 import {
   AntdBreadcrumb,
   MainContentLayout,
@@ -20,6 +21,7 @@ const Workspace = () => {
   useEffect(() => {
     setCurrentTab(WORKSPACE);
   }, [setCurrentTab]);
+
   return (
     <>
       <AntdBreadcrumb>
@@ -28,11 +30,13 @@ const Workspace = () => {
         <Breadcrumb.Item>Hospital 2</Breadcrumb.Item>
       </AntdBreadcrumb>
       <MainContentLayout>
-        <ContentSidebar scheme={workspaceMenuScheme}>
-          <S.Main>
+        <S.SiderMenuWrapper>
+          <ContentSidebar scheme={workspaceMenuScheme} />
+          <S.AntdContent>
+            <ToolPanel />
             <Canvas />
-          </S.Main>
-        </ContentSidebar>
+          </S.AntdContent>
+        </S.SiderMenuWrapper>
       </MainContentLayout>
     </>
   );

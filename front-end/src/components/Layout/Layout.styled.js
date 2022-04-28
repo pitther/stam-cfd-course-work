@@ -8,7 +8,7 @@ const COLLAPSE_BREAKPOINT = 800;
 export const AntdHeader = styled(Header)`
   height: 50px;
   padding: 0 5vw;
-  border-bottom: 0px solid;
+  border-bottom: 0 solid;
 `;
 
 export const Logo = styled.div`
