@@ -5,7 +5,7 @@ import { themeColors } from '../../../../styles/theme';
 export const Wrapper = styled.div`
   background: ${themeColors.header};
   width: 100%;
-  padding: 0.2rem;
+  padding: 0.5rem;
   margin: 0 0 1rem 0;
 `;
 
@@ -15,19 +15,37 @@ export const Container = styled.div`
   flex-direction: row;
   justify-content: center;
   gap: 1rem;
+  flex-wrap: wrap;
 `;
 
 export const ToolSection = styled.div`
   display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
+  flex-direction: column;
+`;
 
-  &:not(:last-child):after {
-    margin-left: 1rem;
+export const SectionTitle = styled.div`
+  font-size: 0.7rem;
+  width: 100%;
+  text-align: center;
+`;
+
+export const ToolContainer = styled.div`
+  display: flex;
+
+  &:after {
+    margin-left: 0.5rem;
     content: '';
-    background: black;
-    width: 1px;
     height: 100%;
+    border: 1px dashed ${themeColors.defaultDarker};
+    opacity: 0.5;
+  }
+
+  &:before {
+    margin-right: 0.5rem;
+    content: '';
+    height: 100%;
+    border: 1px dashed ${themeColors.defaultDarker};
+    opacity: 0.5;
   }
 `;
 
@@ -37,10 +55,12 @@ export const Tool = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: color ease-in 0.1s, transform ease-out 0.1s;
 
-  transition: color ease-in 0.1s;
+  color: ${({ color }) => color || ''};
 
   &:hover {
+    transform: scale3d(0.9, 0.9, 0.9);
     color: ${themeColors.accent};
   }
 
