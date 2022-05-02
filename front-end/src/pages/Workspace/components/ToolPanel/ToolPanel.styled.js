@@ -57,12 +57,18 @@ export const Tool = styled.div`
   align-items: center;
   transition: color ease-in 0.1s, transform ease-out 0.1s;
 
-  color: ${({ color }) => color || ''};
+  color: ${({ color }) => color};
 
   &:hover {
     transform: scale3d(0.9, 0.9, 0.9);
     color: ${themeColors.accent};
   }
+
+  /*
+  transform: ${({ toggled }) =>
+    toggled ? 'scale3d(.9,.9,.9)' : 'scale3d(1,1,1)'};*/
+
+  color: ${({ toggled }) => (toggled ? themeColors.accent : 'black')};
 
   font-size: 1.3rem;
 `;

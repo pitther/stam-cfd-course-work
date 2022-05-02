@@ -2,10 +2,10 @@ import { Breadcrumb } from 'antd';
 import { useContext, useEffect } from 'react';
 
 import LayoutContext from '../../contexts/LayoutContext';
+import useWorkspace from '../../hooks/UseWorkspace';
 import { WORKSPACE } from '../../routes/paths';
 
 import Canvas from './components/Canvas';
-import ContentSidebar from './components/ContentSidebar';
 import ToolPanel from './components/ToolPanel';
 import {
   AntdBreadcrumb,
@@ -13,10 +13,9 @@ import {
 } from '../../components/Layout/Layout.styled';
 import * as S from './Workspace.styled';
 
-const workspaceMenuScheme = [];
-
 const Workspace = () => {
   const { setCurrentTab } = useContext(LayoutContext);
+  const workspace = useWorkspace();
 
   useEffect(() => {
     setCurrentTab(WORKSPACE);
@@ -31,10 +30,9 @@ const Workspace = () => {
       </AntdBreadcrumb>
       <MainContentLayout>
         <S.SiderMenuWrapper>
-          <ContentSidebar scheme={workspaceMenuScheme} />
           <S.AntdContent>
-            <ToolPanel />
-            <Canvas />
+            <ToolPanel toolbar={workspace.toolbar} />
+            <Canvas workspace={workspace} />
           </S.AntdContent>
         </S.SiderMenuWrapper>
       </MainContentLayout>

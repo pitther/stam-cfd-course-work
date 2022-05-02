@@ -8,9 +8,10 @@ import * as S from './Canvas.styled';
 
 const SIMULATION_RESOLUTION = 64;
 
-const Canvas = () => {
+const Canvas = ({ workspace }) => {
   const stageRef = useRef();
   const containerRef = useRef();
+  const { simulationStop, setSimulationStop, toolbar } = workspace;
 
   const { canvasWidth, canvasHeight, setCanvasWidth, setCanvasHeight } =
     useContext(ResponsibleSizeContext);
