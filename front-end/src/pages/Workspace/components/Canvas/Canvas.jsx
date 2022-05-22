@@ -3,24 +3,29 @@ import { Graphics, Stage } from '@inlet/react-pixi';
 
 import ResponsibleSizeContext from '../../../../contexts/ResponsibleSize';
 
+import { SOLID_OBJECTS_MAP1 } from './temp_maps';
 import { useCanvas } from './useCanvas';
 import * as S from './Canvas.styled';
-
-const SIMULATION_RESOLUTION = 64;
 
 const Canvas = ({ workspace }) => {
   const stageRef = useRef();
   const containerRef = useRef();
   const { toolbar } = workspace;
-
   const { canvasWidth, canvasHeight, setCanvasWidth, setCanvasHeight } =
     useContext(ResponsibleSizeContext);
 
+  const MAP = {
+    BOUND_OBJECTS: SOLID_OBJECTS_MAP1,
+    RESOLUTION: 64,
+    DEFAULT_VISK: 0.0,
+    DEFAULT_DIFF: 0.0002,
+  };
+
   const { startSceneLooping, stopSceneLooping, handleControls } = useCanvas({
-    SIMULATION_RESOLUTION,
     canvasWidth,
     canvasHeight,
     toolbar,
+    MAP,
   });
 
   const handleResize = () => {

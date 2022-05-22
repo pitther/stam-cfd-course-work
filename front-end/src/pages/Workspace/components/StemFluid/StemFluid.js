@@ -278,7 +278,19 @@ const useStemFluid = ({ SIMULATION_RESOLUTION, visc, diff, BOUND_OBJECTS }) => {
     fluid.updateBoundObjects(boundObjects.current);
   };
 
-  return { FLUID: fluid, addSolidObject, removeSolidObject, BOUND_OBJECTS };
+  const clearDensity = () => {
+    setFluid(
+      new Fluid(SIMULATION_RESOLUTION, visc, diff, boundObjects.current),
+    );
+  };
+
+  return {
+    FLUID: fluid,
+    addSolidObject,
+    removeSolidObject,
+    BOUND_OBJECTS,
+    clearDensity,
+  };
 };
 
 export { IX, useStemFluid };

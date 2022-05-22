@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useStemFluid } from '../StemFluid/StemFluid';
 
 import { use2DContextRender } from './2DContextRender';
-import { SOLID_OBJECTS_MAP1 } from './temp_maps';
 
 const FLUID_UPDATE_INTERVAL_S = 1 / 60;
 
@@ -28,27 +27,29 @@ const addForces = (FLUID, SIZE) => {
   }
 };
 
-export const useCanvas = ({
-  SIMULATION_RESOLUTION,
-  canvasWidth,
-  canvasHeight,
-  toolbar,
-}) => {
+export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
   /* const SOLID_OBJECTS_CLEAR = new Array(
-    SIMULATION_RESOLUTION * SIMULATION_RESOLUTION,
-  ).fill(false); */
+      MAP.RESOLUTION * MAP.RESOLUTION,
+    ).fill(false); */
 
   // creating fluid with map
+
+  const CURRENT_MAP = useStemFluid({
+    SIMULATION_RESOLUTION: MAP.RESOLUTION,
+    BOUND_OBJECTS: MAP.BOUND_OBJECTS,
+    visc: MAP.DEFAULT_VISK,
+    diff: MAP.DEFAULT_DIFF,
+  });
+
+  const {
+    clearDensity,
+    FLUID,
+    addSolidObject,
+    removeSolidObject,
+    BOUND_OBJECTS,
+  } = CURRENT_MAP;
   const [simulationRunning, setSimulationRunning] = useState(true);
   const [sceneRunning, setSceneRunning] = useState(true);
-
-  const { FLUID, addSolidObject, removeSolidObject, BOUND_OBJECTS } =
-    useStemFluid({
-      SIMULATION_RESOLUTION,
-      BOUND_OBJECTS: SOLID_OBJECTS_MAP1,
-      visc: 0.0,
-      diff: 0.0002,
-    });
 
   const { renderScene } = use2DContextRender();
   const intervalRef = useRef(null);
@@ -61,7 +62,7 @@ export const useCanvas = ({
 
       intervalRef.current = setInterval(() => {
         if (simulationRunning) {
-          addForces(FLUID, SIMULATION_RESOLUTION);
+          addForces(FLUID, MAP.RESOLUTION);
           FLUID.step(FLUID_UPDATE_INTERVAL_S);
         }
 
@@ -70,7 +71,7 @@ export const useCanvas = ({
             graphics,
             BOUND_OBJECTS,
             FLUID,
-            SIMULATION_RESOLUTION,
+            SIMULATION_RESOLUTION: MAP.RESOLUTION,
           });
         }
       }, FLUID_UPDATE_INTERVAL_S * 1000);
@@ -81,11 +82,12 @@ export const useCanvas = ({
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      SIMULATION_RESOLUTION,
+      MAP.RESOLUTION,
       BOUND_OBJECTS,
       renderScene,
       simulationRunning,
       sceneRunning,
+      clearDensity,
     ],
   );
 
@@ -93,7 +95,11 @@ export const useCanvas = ({
     clearInterval(intervalRef.current);
   };
 
-  const { toggledTools, isToggled } = toolbar;
+  const { toggledTools, isToggled, groups } = toolbar;
+
+  groups[0].tools[2].action = () => {
+    clearDensity();
+  };
 
   useEffect(() => {
     if (isToggled('STOP')) {
@@ -119,8 +125,8 @@ export const useCanvas = ({
         nativeY,
         canvasWidth,
         canvasHeight,
-        SIMULATION_RESOLUTION,
-        SIMULATION_RESOLUTION,
+        MAP.RESOLUTION,
+        MAP.RESOLUTION,
       );
 
       if (activeControls.rightMouseDown) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   AiFillFolderOpen,
   AiFillSave,
@@ -75,17 +75,13 @@ const getToolByName = (name) =>
   getToolGroupByName(name).tools.find((tool) => tool.name === name);
 
 const useToolbar = () => {
-  const [toggledTools, setToggledTools] = useState([]);
+  const [toggledTools, setToggledTools] = useState(['START']);
 
   const isToggled = (name) => toggledTools.indexOf(name) > -1;
 
   const addToggledTool = (name) => {
     setToggledTools((prevState) => [...prevState, name]);
   };
-
-  useEffect(() => {
-    console.log(toggledTools);
-  }, [toggledTools]);
 
   const removeToggledTool = (name) => {
     if (isToggled(name)) {
@@ -109,7 +105,11 @@ const useToolbar = () => {
     const group = getToolGroupByName(name);
     const tool = getToolByName(name);
 
-    if (isToggled(name) && group.required !== GROUP_REQUIRED_ONE) {
+    if (
+      isToggled(name) &&
+      group.required !== GROUP_REQUIRED_ONE &&
+      group.scope !== GROUP_SCOPE_GLOBAL
+    ) {
       removeToggledTool(name);
       return;
     }

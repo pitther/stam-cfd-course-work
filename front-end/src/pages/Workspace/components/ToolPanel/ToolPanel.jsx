@@ -19,10 +19,10 @@ const ToolPanel = ({ toolbar }) => {
                   color={themeColors.defaultDarker}
                   placement="bottom"
                   title={name}
+                  key={name}
                 >
                   <S.Tool
                     toggled={isToggled(name)}
-                    key={name}
                     onClick={() => toggle(name)}
                   >
                     {icon}
