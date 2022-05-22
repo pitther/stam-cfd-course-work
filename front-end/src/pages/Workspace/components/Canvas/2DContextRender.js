@@ -26,9 +26,10 @@ const use2DContextRender = () => {
 
   const { canvasWidth, canvasHeight } = useContext(ResponsibleSizeContext);
   const renderScene = useCallback(
-    ({ graphics, BOUND_OBJECTS, FLUID, SIMULATION_RESOLUTION }) => {
-      const CELL_WIDTH = canvasWidth / SIMULATION_RESOLUTION;
-      const CELL_HEIGHT = canvasHeight / SIMULATION_RESOLUTION;
+    ({ graphics, CURRENT_MAP }) => {
+      const { RESOLUTION, FLUID, BOUND_OBJECTS } = CURRENT_MAP;
+      const CELL_WIDTH = canvasWidth / RESOLUTION;
+      const CELL_HEIGHT = canvasHeight / RESOLUTION;
 
       const OFFSET = {
         x: -CELL_WIDTH,
@@ -36,8 +37,8 @@ const use2DContextRender = () => {
       };
 
       graphics?.clear();
-      for (let y = 1; y <= SIMULATION_RESOLUTION; y += 1) {
-        for (let x = 1; x <= SIMULATION_RESOLUTION; x += 1) {
+      for (let y = 1; y <= RESOLUTION; y += 1) {
+        for (let x = 1; x <= RESOLUTION; x += 1) {
           // const [velocityX, velocityY] = FLUID.velocityAt(x, y);
           const density = FLUID.densityAt(x, y);
           // eslint-disable-next-line no-restricted-globals
@@ -49,8 +50,9 @@ const use2DContextRender = () => {
           const hexColor = rgbToHex([color?.r, color?.g, color?.b]);
           drawCell(graphics, x, y, CELL_WIDTH, CELL_HEIGHT, hexColor, OFFSET);
 
-          if (BOUND_OBJECTS[IX(SIMULATION_RESOLUTION, x, y)]) {
+          if (BOUND_OBJECTS[IX(RESOLUTION, x, y)]) {
             // rgb(115, 118, 120)
+
             const boundColor = rgbToHex([255, 255, 255]);
             drawCell(
               graphics,

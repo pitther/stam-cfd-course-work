@@ -3,7 +3,7 @@ import { Graphics, Stage } from '@inlet/react-pixi';
 
 import ResponsibleSizeContext from '../../../../contexts/ResponsibleSize';
 
-import { SOLID_OBJECTS_MAP1 } from './temp_maps';
+import { SOLID_OBJECTS_CLEAR } from './temp_map_clear';
 import { useCanvas } from './useCanvas';
 import * as S from './Canvas.styled';
 
@@ -15,7 +15,7 @@ const Canvas = ({ workspace }) => {
     useContext(ResponsibleSizeContext);
 
   const MAP = {
-    BOUND_OBJECTS: SOLID_OBJECTS_MAP1,
+    BOUND_OBJECTS: SOLID_OBJECTS_CLEAR,
     RESOLUTION: 64,
     DEFAULT_VISK: 0.0,
     DEFAULT_DIFF: 0.0002,

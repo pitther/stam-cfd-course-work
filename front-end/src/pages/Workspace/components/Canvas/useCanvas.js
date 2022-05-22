@@ -28,14 +28,14 @@ const addForces = (FLUID, SIZE) => {
 };
 
 export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
-  /* const SOLID_OBJECTS_CLEAR = new Array(
-      MAP.RESOLUTION * MAP.RESOLUTION,
-    ).fill(false); */
+  const SOLID_OBJECTS_CLEAR = new Array(MAP.RESOLUTION * MAP.RESOLUTION).fill(
+    false,
+  );
 
   // creating fluid with map
 
   const CURRENT_MAP = useStemFluid({
-    SIMULATION_RESOLUTION: MAP.RESOLUTION,
+    RESOLUTION: MAP.RESOLUTION,
     BOUND_OBJECTS: MAP.BOUND_OBJECTS,
     visc: MAP.DEFAULT_VISK,
     diff: MAP.DEFAULT_DIFF,
@@ -48,6 +48,7 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
     removeSolidObject,
     BOUND_OBJECTS,
   } = CURRENT_MAP;
+
   const [simulationRunning, setSimulationRunning] = useState(true);
   const [sceneRunning, setSceneRunning] = useState(true);
 
@@ -69,8 +70,7 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
         if (sceneRunning) {
           renderScene({
             graphics,
-            BOUND_OBJECTS,
-            FLUID,
+            CURRENT_MAP,
             SIMULATION_RESOLUTION: MAP.RESOLUTION,
           });
         }
