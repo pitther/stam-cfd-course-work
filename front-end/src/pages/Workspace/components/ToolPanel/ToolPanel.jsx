@@ -1,24 +1,20 @@
 import * as S from './ToolPanel.styled';
 
 const ToolPanel = ({ toolbar }) => {
-  const { setToggledToolName, toggledToolName } = toolbar;
-
-  const toggleTool = (name) => {
-    setToggledToolName(name);
-  };
+  const { groups, toggle, isToggled } = toolbar;
 
   return (
     <S.Wrapper>
       <S.Container>
-        {toolbar.tools.map(({ title, tools }) => (
+        {groups.map(({ title, tools }) => (
           <S.ToolSection key={title}>
             <S.SectionTitle>{title}</S.SectionTitle>
             <S.ToolContainer>
               {tools.map(({ name, icon }) => (
                 <S.Tool
-                  toggled={toggledToolName === name}
+                  toggled={isToggled(name)}
                   key={name}
-                  onClick={() => toggleTool(name)}
+                  onClick={() => toggle(name)}
                 >
                   {icon}
                 </S.Tool>

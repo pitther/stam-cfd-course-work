@@ -11,18 +11,17 @@ const SIMULATION_RESOLUTION = 64;
 const Canvas = ({ workspace }) => {
   const stageRef = useRef();
   const containerRef = useRef();
-  const { simulationStop, setSimulationStop, toolbar } = workspace;
+  const { toolbar } = workspace;
 
   const { canvasWidth, canvasHeight, setCanvasWidth, setCanvasHeight } =
     useContext(ResponsibleSizeContext);
 
-  const { startRenderingCycle, handleControls, stopRenderingCycle } = useCanvas(
-    {
-      SIMULATION_RESOLUTION,
-      canvasWidth,
-      canvasHeight,
-    },
-  );
+  const { startSceneLooping, stopSceneLooping, handleControls } = useCanvas({
+    SIMULATION_RESOLUTION,
+    canvasWidth,
+    canvasHeight,
+    toolbar,
+  });
 
   const handleResize = () => {
     setCanvasWidth(containerRef?.current?.offsetWidth);
@@ -34,7 +33,7 @@ const Canvas = ({ workspace }) => {
     handleResize();
 
     return () => {
-      stopRenderingCycle();
+      stopSceneLooping();
     };
 
     /* const stats = addStats(document, stageRef.current);
@@ -59,7 +58,7 @@ const Canvas = ({ workspace }) => {
           onMouseMove={handleControls}
           onContextMenu={handleControls}
         >
-          <Graphics tint={0xffffff} draw={startRenderingCycle} />
+          <Graphics tint={0xffffff} draw={startSceneLooping} />
         </Stage>
       </S.Container>
     </S.Wrapper>

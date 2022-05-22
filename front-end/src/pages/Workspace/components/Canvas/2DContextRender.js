@@ -2,9 +2,8 @@ import ColorScale from 'color-scales';
 import * as PIXI from 'pixi.js';
 import { useCallback, useContext } from 'react';
 
-import ResponsibleSizeContext from '../contexts/ResponsibleSize';
-
-import { IX } from './StemFluid';
+import ResponsibleSizeContext from '../../../../contexts/ResponsibleSize';
+import { IX } from '../StemFluid/StemFluid';
 
 const rgbToNormalLimit = (rgb) => [rgb[0] / 255, rgb[1] / 255, rgb[2] / 255];
 
