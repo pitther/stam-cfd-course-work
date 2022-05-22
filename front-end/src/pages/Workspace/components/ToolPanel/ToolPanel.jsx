@@ -1,3 +1,7 @@
+import { Tooltip } from 'antd';
+
+import { themeColors } from '../../../../styles/theme';
+
 import * as S from './ToolPanel.styled';
 
 const ToolPanel = ({ toolbar }) => {
@@ -11,13 +15,19 @@ const ToolPanel = ({ toolbar }) => {
             <S.SectionTitle>{title}</S.SectionTitle>
             <S.ToolContainer>
               {tools.map(({ name, icon }) => (
-                <S.Tool
-                  toggled={isToggled(name)}
-                  key={name}
-                  onClick={() => toggle(name)}
+                <Tooltip
+                  color={themeColors.defaultDarker}
+                  placement="bottom"
+                  title={name}
                 >
-                  {icon}
-                </S.Tool>
+                  <S.Tool
+                    toggled={isToggled(name)}
+                    key={name}
+                    onClick={() => toggle(name)}
+                  >
+                    {icon}
+                  </S.Tool>
+                </Tooltip>
               ))}
             </S.ToolContainer>
           </S.ToolSection>

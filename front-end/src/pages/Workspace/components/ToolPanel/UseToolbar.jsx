@@ -9,6 +9,7 @@ import {
   GiArrowCursor,
   GiBrickWall,
   GiWindow,
+  GrClearOption,
   MdNotStarted,
   MdStopCircle,
 } from 'react-icons/all';
@@ -29,6 +30,7 @@ const groups = [
     tools: [
       { name: 'OPEN', icon: <AiFillFolderOpen /> },
       { name: 'SAVE', icon: <AiFillSave /> },
+      { name: 'CLEAR', icon: <GrClearOption /> },
     ],
   },
   {
@@ -63,6 +65,8 @@ const groups = [
     ],
   },
 ];
+
+// AiOutlineClear
 
 const getToolGroupByName = (name) =>
   groups.find((group) => group.tools.find((tool) => tool.name === name));
