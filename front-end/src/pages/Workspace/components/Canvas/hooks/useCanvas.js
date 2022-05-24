@@ -100,59 +100,63 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
     middleMouseDown: false,
   };
 
+  const applyControls = (e, x, y) => {
+    if (activeControls.leftMouseDown) {
+      if (isToggled('MOVE'))
+        MAP.stemFluid.fluid.addForce(x, y, e.movementX * 20, e.movementY * 20);
+
+      if (isToggled('POUR')) MAP.stemFluid.fluid.addDensity(x, y, 100);
+
+      if (isToggled('ERASER')) MAP.removeObject(x, y);
+
+      if (
+        isToggled('WALL') ||
+        isToggled('WINDOW') ||
+        isToggled('FAN') ||
+        isToggled('WENT')
+      ) {
+        MAP.addObject(WALL_CODE, x, y);
+      }
+    }
+
+    if (activeControls.middleMouseDown) {
+    }
+
+    if (activeControls.rightMouseDown) {
+      if (
+        isToggled('WALL') ||
+        isToggled('WINDOW') ||
+        isToggled('FAN') ||
+        isToggled('WENT')
+      ) {
+        MAP.removeObject(x, y);
+      }
+    }
+  };
+
   const handleControls = (e) => {
     // eslint-disable-next-line no-underscore-dangle
+
+    let nativeX = e.nativeEvent.offsetX;
+    let nativeY = e.nativeEvent.offsetY;
+
+    if (!nativeX) {
+      const rect = e.target.getBoundingClientRect();
+      nativeX = e.targetTouches[0].clientX - rect.left;
+      nativeY = e.targetTouches[0].clientY - rect.top;
+    }
+
+    const { x, y } = nativeCoordsToFluid(
+      nativeX,
+      nativeY,
+      canvasWidth,
+      canvasHeight,
+      MAP.resolution,
+      MAP.resolution,
+    );
+
     if (e._reactName === 'onMouseMove') {
-      const nativeX = e.nativeEvent.offsetX;
-      const nativeY = e.nativeEvent.offsetY;
-      const { x, y } = nativeCoordsToFluid(
-        nativeX,
-        nativeY,
-        canvasWidth,
-        canvasHeight,
-        MAP.resolution,
-        MAP.resolution,
-      );
-
-      if (activeControls.leftMouseDown) {
-        if (isToggled('MOVE'))
-          MAP.stemFluid.fluid.addForce(
-            x,
-            y,
-            e.movementX * 20,
-            e.movementY * 20,
-          );
-
-        if (isToggled('POUR')) MAP.stemFluid.fluid.addDensity(x, y, 100);
-
-        if (isToggled('ERASER')) MAP.removeObject(x, y);
-
-        if (
-          isToggled('WALL') ||
-          isToggled('WINDOW') ||
-          isToggled('FAN') ||
-          isToggled('WENT')
-        ) {
-          MAP.addObject(WALL_CODE, x, y);
-        }
-      }
-
-      if (activeControls.middleMouseDown) {
-      }
-
-      if (activeControls.rightMouseDown) {
-        if (
-          isToggled('WALL') ||
-          isToggled('WINDOW') ||
-          isToggled('FAN') ||
-          isToggled('WENT')
-        ) {
-          MAP.removeObject(x, y);
-        }
-      }
-
-      if (activeControls.rightMouseDown) {
-      }
+      applyControls(e, x, y);
     }
 
     // eslint-disable-next-line no-underscore-dangle
@@ -166,6 +170,7 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
       if (e.button === 0) {
         activeControls.leftMouseDown = true;
       }
+      applyControls(e, x, y);
     }
 
     // eslint-disable-next-line no-underscore-dangle
@@ -179,6 +184,19 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
       if (e.button === 0) {
         activeControls.leftMouseDown = false;
       }
+    }
+
+    console.log(e, x, y);
+    if (e._reactName === 'onTouchStart') {
+      activeControls.leftMouseDown = true;
+      applyControls(e, x, y);
+    }
+    if (e._reactName === 'onTouchMove') {
+      activeControls.leftMouseDown = true;
+      applyControls(e, x, y);
+    }
+    if (e._reactName === 'onTouchEnd') {
+      activeControls.leftMouseDown = false;
     }
 
     e.preventDefault();
