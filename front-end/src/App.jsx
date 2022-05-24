@@ -5,7 +5,7 @@ import ResponsibleSizeContext from './contexts/ResponsibleSize';
 import UserContext from './contexts/UserContext';
 import useLayout from './hooks/UseLayout';
 import useUser from './hooks/UseUser';
-import useResponsibleSize from './pages/Workspace/components/Canvas/UseResponsibleSize';
+import useResponsibleSize from './pages/Workspace/components/Canvas/hooks/UseResponsibleSize';
 import SiteRoutes from './routes/SiteRoutes';
 import { GlobalStyles } from './styles/Global.styled';
 

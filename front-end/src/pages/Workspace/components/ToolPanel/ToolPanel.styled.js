@@ -27,6 +27,7 @@ export const SectionTitle = styled.div`
   font-size: 0.7rem;
   width: 100%;
   text-align: center;
+  user-select: none;
 `;
 
 export const ToolContainer = styled.div`

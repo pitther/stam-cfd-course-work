@@ -261,34 +261,28 @@ class Fluid {
   }
 }
 
-const useStemFluid = ({ RESOLUTION, visc, diff, BOUND_OBJECTS }) => {
-  const boundObjects = useRef(BOUND_OBJECTS);
+const useStemFluid = ({ resolution, viscosity, diffuse, stemBound }) => {
+  const stemBoundRef = useRef(stemBound);
 
   const [fluid, setFluid] = useState(
-    new Fluid(RESOLUTION, visc, diff, boundObjects.current),
+    new Fluid(resolution, viscosity, diffuse, stemBound),
   );
 
-  const addSolidObject = (x, y) => {
-    boundObjects.current[IX(RESOLUTION, x, y)] = true;
-    fluid.updateBoundObjects(boundObjects.current);
-  };
-
-  const removeSolidObject = (x, y) => {
-    boundObjects.current[IX(RESOLUTION, x, y)] = false;
-    fluid.updateBoundObjects(boundObjects.current);
+  const updateBoundObjects = (newBound) => {
+    stemBoundRef.current = newBound;
+    fluid.updateBoundObjects(newBound);
   };
 
   const clearDensity = () => {
-    setFluid(new Fluid(RESOLUTION, visc, diff, boundObjects.current));
+    setFluid(new Fluid(resolution, viscosity, diffuse, stemBoundRef.current));
   };
 
   return {
-    FLUID: fluid,
-    addSolidObject,
-    removeSolidObject,
-    BOUND_OBJECTS,
+    fluid,
+    stemBoundRef,
     clearDensity,
-    RESOLUTION,
+    resolution,
+    updateBoundObjects,
   };
 };
 

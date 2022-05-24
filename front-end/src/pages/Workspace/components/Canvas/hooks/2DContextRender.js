@@ -2,8 +2,8 @@ import ColorScale from 'color-scales';
 import * as PIXI from 'pixi.js';
 import { useCallback, useContext } from 'react';
 
-import ResponsibleSizeContext from '../../../../contexts/ResponsibleSize';
-import { IX } from '../StemFluid/StemFluid';
+import ResponsibleSizeContext from '../../../../../contexts/ResponsibleSize';
+import { IX } from '../../StemFluid/StemFluid';
 
 const rgbToNormalLimit = (rgb) => [rgb[0] / 255, rgb[1] / 255, rgb[2] / 255];
 
@@ -26,10 +26,10 @@ const use2DContextRender = () => {
 
   const { canvasWidth, canvasHeight } = useContext(ResponsibleSizeContext);
   const renderScene = useCallback(
-    ({ graphics, CURRENT_MAP }) => {
-      const { RESOLUTION, FLUID, BOUND_OBJECTS } = CURRENT_MAP;
-      const CELL_WIDTH = canvasWidth / RESOLUTION;
-      const CELL_HEIGHT = canvasHeight / RESOLUTION;
+    ({ graphics, MAP }) => {
+      const { resolution } = MAP;
+      const CELL_WIDTH = canvasWidth / resolution;
+      const CELL_HEIGHT = canvasHeight / resolution;
 
       const OFFSET = {
         x: -CELL_WIDTH,
@@ -37,20 +37,20 @@ const use2DContextRender = () => {
       };
 
       graphics?.clear();
-      for (let y = 1; y <= RESOLUTION; y += 1) {
-        for (let x = 1; x <= RESOLUTION; x += 1) {
+      for (let y = 1; y <= resolution; y += 1) {
+        for (let x = 1; x <= resolution; x += 1) {
           // const [velocityX, velocityY] = FLUID.velocityAt(x, y);
-          const density = FLUID.densityAt(x, y);
+          const density = MAP.stemFluid.fluid.densityAt(x, y);
           // eslint-disable-next-line no-restricted-globals
           if (isNaN(density)) {
-            FLUID?.clear();
+            MAP.stemFluid?.clear();
             return;
           }
           const color = colorScale.getColor(density);
           const hexColor = rgbToHex([color?.r, color?.g, color?.b]);
           drawCell(graphics, x, y, CELL_WIDTH, CELL_HEIGHT, hexColor, OFFSET);
 
-          if (BOUND_OBJECTS[IX(RESOLUTION, x, y)]) {
+          if (MAP.stemFluid.stemBoundRef.current[IX(resolution, x, y)]) {
             // rgb(115, 118, 120)
 
             const boundColor = rgbToHex([255, 255, 255]);

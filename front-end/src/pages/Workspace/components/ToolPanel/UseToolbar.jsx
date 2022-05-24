@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   AiFillFolderOpen,
   AiFillSave,
+  BsArrowsMove,
   FaEraser,
   FaFan,
   FaHandPointer,
@@ -12,6 +13,7 @@ import {
   GrClearOption,
   MdNotStarted,
   MdStopCircle,
+  TiWeatherDownpour,
 } from 'react-icons/all';
 
 import {
@@ -30,7 +32,7 @@ const groups = [
     tools: [
       { name: 'OPEN', icon: <AiFillFolderOpen /> },
       { name: 'SAVE', icon: <AiFillSave /> },
-      { name: 'CLEAR', icon: <GrClearOption /> },
+      { name: 'CLEAN AIR', icon: <GrClearOption /> },
     ],
   },
   {
@@ -41,6 +43,15 @@ const groups = [
       { name: 'DEFAULT', icon: <GiArrowCursor /> },
       { name: 'POINTER', icon: <FaHandPointer /> },
       { name: 'ERASER', icon: <FaEraser /> },
+    ],
+  },
+  {
+    title: 'AIR',
+    type: GROUP_TOGGLE,
+    scope: GROUP_SCOPE_GLOBAL,
+    tools: [
+      { name: 'POUR', icon: <TiWeatherDownpour /> },
+      { name: 'MOVE', icon: <BsArrowsMove /> },
     ],
   },
   {
@@ -75,7 +86,7 @@ const getToolByName = (name) =>
   getToolGroupByName(name).tools.find((tool) => tool.name === name);
 
 const useToolbar = () => {
-  const [toggledTools, setToggledTools] = useState(['START']);
+  const [toggledTools, setToggledTools] = useState(['START', 'DEFAULT']);
 
   const isToggled = (name) => toggledTools.indexOf(name) > -1;
 

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { useStemFluid } from '../StemFluid/StemFluid';
+import { WALL_CODE } from '../../../../../util/ObjectCodes';
 
 import { use2DContextRender } from './2DContextRender';
 
@@ -28,26 +28,11 @@ const addForces = (FLUID, SIZE) => {
 };
 
 export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
-  const SOLID_OBJECTS_CLEAR = new Array(MAP.RESOLUTION * MAP.RESOLUTION).fill(
-    false,
-  );
-
   // creating fluid with map
 
-  const CURRENT_MAP = useStemFluid({
-    RESOLUTION: MAP.RESOLUTION,
-    BOUND_OBJECTS: MAP.BOUND_OBJECTS,
-    visc: MAP.DEFAULT_VISK,
-    diff: MAP.DEFAULT_DIFF,
-  });
+  MAP.initStemFluid();
 
-  const {
-    clearDensity,
-    FLUID,
-    addSolidObject,
-    removeSolidObject,
-    BOUND_OBJECTS,
-  } = CURRENT_MAP;
+  const { fluid, stemBoundRef, clearDensity, resolution } = MAP.stemFluid;
 
   const [simulationRunning, setSimulationRunning] = useState(true);
   const [sceneRunning, setSceneRunning] = useState(true);
@@ -63,15 +48,14 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
 
       intervalRef.current = setInterval(() => {
         if (simulationRunning) {
-          addForces(FLUID, MAP.RESOLUTION);
-          FLUID.step(FLUID_UPDATE_INTERVAL_S);
+          addForces(fluid, resolution);
+          fluid.step(FLUID_UPDATE_INTERVAL_S);
         }
 
         if (sceneRunning) {
           renderScene({
             graphics,
-            CURRENT_MAP,
-            SIMULATION_RESOLUTION: MAP.RESOLUTION,
+            MAP,
           });
         }
       }, FLUID_UPDATE_INTERVAL_S * 1000);
@@ -82,8 +66,8 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      MAP.RESOLUTION,
-      BOUND_OBJECTS,
+      MAP.resolution,
+      stemBoundRef,
       renderScene,
       simulationRunning,
       sceneRunning,
@@ -115,6 +99,7 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
     rightMouseDown: false,
     middleMouseDown: false,
   };
+
   const handleControls = (e) => {
     // eslint-disable-next-line no-underscore-dangle
     if (e._reactName === 'onMouseMove') {
@@ -125,24 +110,48 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
         nativeY,
         canvasWidth,
         canvasHeight,
-        MAP.RESOLUTION,
-        MAP.RESOLUTION,
+        MAP.resolution,
+        MAP.resolution,
       );
 
-      if (activeControls.rightMouseDown) {
-        FLUID.addDensity(x, y, 100);
-      }
-
       if (activeControls.leftMouseDown) {
-        FLUID.addForce(x, y, e.movementX * 20, e.movementY * 20);
-      }
+        if (isToggled('MOVE'))
+          MAP.stemFluid.fluid.addForce(
+            x,
+            y,
+            e.movementX * 20,
+            e.movementY * 20,
+          );
 
-      if (activeControls.rightMouseDown) {
-        removeSolidObject(x, y);
+        if (isToggled('POUR')) MAP.stemFluid.fluid.addDensity(x, y, 100);
+
+        if (isToggled('ERASER')) MAP.removeObject(x, y);
+
+        if (
+          isToggled('WALL') ||
+          isToggled('WINDOW') ||
+          isToggled('FAN') ||
+          isToggled('WENT')
+        ) {
+          MAP.addObject(WALL_CODE, x, y);
+        }
       }
 
       if (activeControls.middleMouseDown) {
-        addSolidObject(x, y);
+      }
+
+      if (activeControls.rightMouseDown) {
+        if (
+          isToggled('WALL') ||
+          isToggled('WINDOW') ||
+          isToggled('FAN') ||
+          isToggled('WENT')
+        ) {
+          MAP.removeObject(x, y);
+        }
+      }
+
+      if (activeControls.rightMouseDown) {
       }
     }
 

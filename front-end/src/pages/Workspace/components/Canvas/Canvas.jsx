@@ -2,9 +2,9 @@ import { useContext, useEffect, useRef } from 'react';
 import { Graphics, Stage } from '@inlet/react-pixi';
 
 import ResponsibleSizeContext from '../../../../contexts/ResponsibleSize';
+import { ICFDMAP } from '../../../../util/Map';
 
-import { SOLID_OBJECTS_CLEAR } from './temp_map_clear';
-import { useCanvas } from './useCanvas';
+import { useCanvas } from './hooks/useCanvas';
 import * as S from './Canvas.styled';
 
 const Canvas = ({ workspace }) => {
@@ -14,18 +14,17 @@ const Canvas = ({ workspace }) => {
   const { canvasWidth, canvasHeight, setCanvasWidth, setCanvasHeight } =
     useContext(ResponsibleSizeContext);
 
-  const MAP = {
-    BOUND_OBJECTS: SOLID_OBJECTS_CLEAR,
-    RESOLUTION: 64,
-    DEFAULT_VISK: 0.0,
-    DEFAULT_DIFF: 0.0002,
-  };
+  const CLEAR_MAP = new ICFDMAP({
+    resolution: 64,
+    viscosity: 0.0,
+    diffuse: 0.0002,
+  });
 
   const { startSceneLooping, stopSceneLooping, handleControls } = useCanvas({
     canvasWidth,
     canvasHeight,
     toolbar,
-    MAP,
+    MAP: CLEAR_MAP,
   });
 
   const handleResize = () => {
@@ -61,6 +60,9 @@ const Canvas = ({ workspace }) => {
           onMouseDown={handleControls}
           onMouseUp={handleControls}
           onMouseMove={handleControls}
+          onTouchEnd={handleControls}
+          onTouchMove={handleControls}
+          onTouchStart={handleControls}
           onContextMenu={handleControls}
         >
           <Graphics tint={0xffffff} draw={startSceneLooping} />
