@@ -1,6 +1,6 @@
 import { useStemFluid } from '../pages/Workspace/components/StemFluid/StemFluid';
 
-import { NONE_CODE } from './ObjectCodes';
+import { NONE_CODE, WENT_CODE } from './ObjectCodes';
 
 export class ICFDMAP {
   constructor({ objects, resolution, viscosity, diffuse }) {
@@ -16,7 +16,7 @@ export class ICFDMAP {
   }
 
   objectsToStemBound() {
-    return this.objects.map((cell) => cell !== 0);
+    return this.objects.map((cell) => cell !== 0 && cell !== WENT_CODE);
   }
 
   initStemFluid() {
@@ -40,11 +40,14 @@ export class ICFDMAP {
   }
 
   updateStemBoundRef() {
-    this.stemFluid.updateBoundObjects(this.objectsToStemBound());
+    if (this.stemFluid) {
+      this.stemFluid.updateBoundObjects(this.objectsToStemBound());
+    }
   }
 
   generateClearMap() {
     this.objects = new Array(this.resolution * this.resolution).fill(0);
+    this.updateStemBoundRef();
   }
 
   IX(i, j) {

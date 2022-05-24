@@ -9,8 +9,10 @@ import {
   FiWind,
   GiArrowCursor,
   GiBrickWall,
+  GiDoor,
   GiWindow,
   GrClearOption,
+  MdDeleteForever,
   MdNotStarted,
   MdStopCircle,
   TiWeatherDownpour,
@@ -32,7 +34,8 @@ const groups = [
     tools: [
       { name: 'OPEN', icon: <AiFillFolderOpen /> },
       { name: 'SAVE', icon: <AiFillSave /> },
-      { name: 'CLEAN AIR', icon: <GrClearOption /> },
+      { name: 'CLEAR OBJECTS', icon: <MdDeleteForever /> },
+      { name: 'CLEAR AIR', icon: <GrClearOption /> },
     ],
   },
   {
@@ -61,6 +64,7 @@ const groups = [
     tools: [
       { name: 'WALL', icon: <GiBrickWall /> },
       { name: 'WINDOW', icon: <GiWindow /> },
+      { name: 'DOOR', icon: <GiDoor /> },
       { name: 'FAN', icon: <FaFan /> },
       { name: 'WENT', icon: <FiWind /> },
     ],
@@ -139,7 +143,14 @@ const useToolbar = () => {
     }
   };
 
-  return { toggledTools, setToggledTools, groups, isToggled, toggle };
+  return {
+    toggledTools,
+    setToggledTools,
+    groups,
+    isToggled,
+    toggle,
+    getToolByName,
+  };
 };
 
 export default useToolbar;

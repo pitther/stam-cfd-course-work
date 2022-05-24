@@ -7,7 +7,7 @@ import { ICFDMAP } from '../../../../util/Map';
 import { useCanvas } from './hooks/useCanvas';
 import * as S from './Canvas.styled';
 
-const CLEAR_MAP = new ICFDMAP({
+const CURRENT_MAP = new ICFDMAP({
   resolution: 64,
   viscosity: 0.0,
   diffuse: 0.0002,
@@ -16,6 +16,7 @@ const CLEAR_MAP = new ICFDMAP({
 const Canvas = ({ workspace }) => {
   const stageRef = useRef();
   const containerRef = useRef();
+
   const { toolbar } = workspace;
   const { canvasWidth, canvasHeight, setCanvasWidth, setCanvasHeight } =
     useContext(ResponsibleSizeContext);
@@ -24,7 +25,8 @@ const Canvas = ({ workspace }) => {
     canvasWidth,
     canvasHeight,
     toolbar,
-    MAP: CLEAR_MAP,
+    stageRef,
+    MAP: CURRENT_MAP,
   });
 
   const handleResize = () => {

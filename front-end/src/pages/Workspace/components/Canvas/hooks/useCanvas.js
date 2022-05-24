@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { WALL_CODE } from '../../../../../util/ObjectCodes';
+import {
+  DOOR_CODE,
+  FAN_CODE,
+  WALL_CODE,
+  WENT_CODE,
+  WINDOW_CODE,
+} from '../../../../../util/ObjectCodes';
 
 import { use2DContextRender } from './2DContextRender';
 
@@ -22,17 +28,23 @@ const addForces = (FLUID, SIZE) => {
   for (let y = 0; y < SIZE; y += 1) {
     if (Math.abs(y - SIZE / 2) < 30 && y % 10 === 0) {
       FLUID.addForce(SIZE, y, -5000, 0);
-      FLUID.addDensity(SIZE, y, 50);
+      FLUID.addDensity(SIZE, y, 500);
     }
   }
 };
 
-export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
+export const useCanvas = ({
+  MAP,
+  canvasWidth,
+  canvasHeight,
+  toolbar,
+  stageRef,
+}) => {
   // creating fluid with map
 
   MAP.initStemFluid();
 
-  const { fluid, stemBoundRef, clearDensity, resolution } = MAP.stemFluid;
+  const { fluid, clearDensity, resolution } = MAP.stemFluid;
 
   const [simulationRunning, setSimulationRunning] = useState(true);
   const [sceneRunning, setSceneRunning] = useState(true);
@@ -55,6 +67,7 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
         if (sceneRunning) {
           renderScene({
             graphics,
+            stageRef,
             MAP,
           });
         }
@@ -65,24 +78,21 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
       };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      MAP.resolution,
-      stemBoundRef,
-      renderScene,
-      simulationRunning,
-      sceneRunning,
-      clearDensity,
-    ],
+    [renderScene, simulationRunning, sceneRunning, clearDensity],
   );
 
   const stopSceneLooping = () => {
     clearInterval(intervalRef.current);
   };
 
-  const { toggledTools, isToggled, groups } = toolbar;
+  const { toggledTools, isToggled, getToolByName } = toolbar;
 
-  groups[0].tools[2].action = () => {
+  getToolByName('CLEAR AIR').action = () => {
     clearDensity();
+  };
+
+  getToolByName('CLEAR OBJECTS').action = () => {
+    MAP.generateClearMap();
   };
 
   useEffect(() => {
@@ -100,8 +110,13 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
     middleMouseDown: false,
   };
 
-  const applyControls = (e, x, y) => {
+  const applyControls = (e, x, y, isTouch) => {
     if (activeControls.leftMouseDown) {
+      if (isToggled('MOVE') && isTouch) {
+        MAP.stemFluid.fluid.addForce(x, y, 2000, 2000);
+        return;
+      }
+
       if (isToggled('MOVE'))
         MAP.stemFluid.fluid.addForce(x, y, e.movementX * 20, e.movementY * 20);
 
@@ -109,13 +124,20 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
 
       if (isToggled('ERASER')) MAP.removeObject(x, y);
 
-      if (
-        isToggled('WALL') ||
-        isToggled('WINDOW') ||
-        isToggled('FAN') ||
-        isToggled('WENT')
-      ) {
+      if (isToggled('WALL')) {
         MAP.addObject(WALL_CODE, x, y);
+      }
+      if (isToggled('WINDOW')) {
+        MAP.addObject(WINDOW_CODE, x, y);
+      }
+      if (isToggled('FAN')) {
+        MAP.addObject(FAN_CODE, x, y);
+      }
+      if (isToggled('WENT')) {
+        MAP.addObject(WENT_CODE, x, y);
+      }
+      if (isToggled('DOOR')) {
+        MAP.addObject(DOOR_CODE, x, y);
       }
     }
 
@@ -127,7 +149,8 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
         isToggled('WALL') ||
         isToggled('WINDOW') ||
         isToggled('FAN') ||
-        isToggled('WENT')
+        isToggled('WENT') ||
+        isToggled('DOOR')
       ) {
         MAP.removeObject(x, y);
       }
@@ -139,11 +162,16 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
 
     let nativeX = e.nativeEvent.offsetX;
     let nativeY = e.nativeEvent.offsetY;
+    let isTouch = false;
 
     if (!nativeX) {
+      isTouch = true;
       const rect = e.target.getBoundingClientRect();
-      nativeX = e.targetTouches[0].clientX - rect.left;
-      nativeY = e.targetTouches[0].clientY - rect.top;
+      if (!e?.targetTouches?.length) {
+        return;
+      }
+      nativeX = e?.targetTouches[0]?.clientX - rect?.left;
+      nativeY = e?.targetTouches[0]?.clientY - rect?.top;
     }
 
     const { x, y } = nativeCoordsToFluid(
@@ -156,7 +184,7 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
     );
 
     if (e._reactName === 'onMouseMove') {
-      applyControls(e, x, y);
+      applyControls(e, x, y, isTouch);
     }
 
     // eslint-disable-next-line no-underscore-dangle
@@ -170,7 +198,7 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
       if (e.button === 0) {
         activeControls.leftMouseDown = true;
       }
-      applyControls(e, x, y);
+      applyControls(e, x, y, isTouch);
     }
 
     // eslint-disable-next-line no-underscore-dangle
@@ -186,22 +214,22 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
       }
     }
 
-    console.log(e, x, y);
     if (e._reactName === 'onTouchStart') {
       activeControls.leftMouseDown = true;
-      applyControls(e, x, y);
+      applyControls(e, x, y, isTouch);
     }
     if (e._reactName === 'onTouchMove') {
       activeControls.leftMouseDown = true;
-      applyControls(e, x, y);
+      applyControls(e, x, y, isTouch);
     }
     if (e._reactName === 'onTouchEnd') {
       activeControls.leftMouseDown = false;
     }
 
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
+    if (!isTouch) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   };
 
   return { startSceneLooping, stopSceneLooping, handleControls };
