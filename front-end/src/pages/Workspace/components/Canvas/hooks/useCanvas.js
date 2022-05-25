@@ -1,6 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
+  AIR_SOURCE_CODE,
   DOOR_CODE,
   FAN_CODE,
   WALL_CODE,
@@ -24,29 +26,29 @@ const nativeCoordsToFluid = (
   y: Math.ceil((y * SIZE_Y) / CANVAS_HEIGHT),
 });
 
-const addForces = (FLUID, SIZE) => {
-  for (let y = 0; y < SIZE; y += 1) {
-    if (Math.abs(y - SIZE / 2) < 30 && y % 10 === 0) {
-      FLUID.addForce(SIZE, y, -5000, 0);
-      FLUID.addDensity(SIZE, y, 500);
+const addForces = (MAP) => {
+  MAP.objects.forEach((object, i) => {
+    if (object === FAN_CODE) {
+      MAP.stemFluid.fluid.addForceIX(i, -500, 0);
+    } else if (object === AIR_SOURCE_CODE) {
+      MAP.stemFluid.fluid.addDensityIX(i, 30, 50);
     }
-  }
+  });
 };
 
-export const useCanvas = ({
-  MAP,
-  canvasWidth,
-  canvasHeight,
-  toolbar,
-  stageRef,
-}) => {
+const cursor = {
+  x: 0,
+  y: 0,
+};
+
+export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
   // creating fluid with map
 
   MAP.initStemFluid();
 
-  const { fluid, clearDensity, resolution } = MAP.stemFluid;
+  const { fluid, clearDensity } = MAP.stemFluid;
 
-  const [simulationRunning, setSimulationRunning] = useState(true);
+  const [simulationRunning, setSimulationRunning] = useState(false);
   const [sceneRunning, setSceneRunning] = useState(true);
 
   const { renderScene } = use2DContextRender();
@@ -60,15 +62,15 @@ export const useCanvas = ({
 
       intervalRef.current = setInterval(() => {
         if (simulationRunning) {
-          addForces(fluid, resolution);
+          addForces(MAP);
           fluid.step(FLUID_UPDATE_INTERVAL_S);
         }
 
         if (sceneRunning) {
           renderScene({
             graphics,
-            stageRef,
             MAP,
+            cursor,
           });
         }
       }, FLUID_UPDATE_INTERVAL_S * 1000);
@@ -78,7 +80,13 @@ export const useCanvas = ({
       };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [renderScene, simulationRunning, sceneRunning, clearDensity],
+    [
+      renderScene,
+      simulationRunning,
+      sceneRunning,
+      clearDensity,
+      MAP.resolution,
+    ],
   );
 
   const stopSceneLooping = () => {
@@ -139,9 +147,9 @@ export const useCanvas = ({
       if (isToggled('DOOR')) {
         MAP.addObject(DOOR_CODE, x, y);
       }
-    }
-
-    if (activeControls.middleMouseDown) {
+      if (isToggled('AIR SOURCE')) {
+        MAP.addObject(AIR_SOURCE_CODE, x, y);
+      }
     }
 
     if (activeControls.rightMouseDown) {
@@ -150,7 +158,8 @@ export const useCanvas = ({
         isToggled('WINDOW') ||
         isToggled('FAN') ||
         isToggled('WENT') ||
-        isToggled('DOOR')
+        isToggled('DOOR') ||
+        isToggled('AIR SOURCE')
       ) {
         MAP.removeObject(x, y);
       }
@@ -182,6 +191,27 @@ export const useCanvas = ({
       MAP.resolution,
       MAP.resolution,
     );
+
+    cursor.x = x;
+    cursor.y = y;
+
+    if (isToggled('WALL')) {
+      cursor.object = WALL_CODE;
+    } else if (isToggled('FAN')) {
+      cursor.object = FAN_CODE;
+    } else if (isToggled('WINDOW')) {
+      cursor.object = WINDOW_CODE;
+    } else if (isToggled('WENT')) {
+      cursor.object = WENT_CODE;
+    } else if (isToggled('DOOR')) {
+      cursor.object = DOOR_CODE;
+    } else if (isToggled('AIR SOURCE')) {
+      cursor.object = AIR_SOURCE_CODE;
+    } else if (isToggled('ERASER')) {
+      cursor.object = -1;
+    } else {
+      cursor.object = 0;
+    }
 
     if (e._reactName === 'onMouseMove') {
       applyControls(e, x, y, isTouch);

@@ -81,6 +81,15 @@ class Fluid {
     this.v0[IX(this.N, x, y)] += fy;
   }
 
+  addDensityIX(ix, dd) {
+    this.x0[ix] += dd;
+  }
+
+  addForceIX(ix, fx, fy) {
+    this.u0[ix] += fx;
+    this.v0[ix] += fy;
+  }
+
   densityAt(x, y) {
     return this.x[IX(this.N, x, y)];
   }

@@ -1,6 +1,6 @@
 import { useStemFluid } from '../pages/Workspace/components/StemFluid/StemFluid';
 
-import { NONE_CODE, WENT_CODE } from './ObjectCodes';
+import { AIR_SOURCE_CODE, FAN_CODE, NONE_CODE, WENT_CODE } from './ObjectCodes';
 
 export class ICFDMAP {
   constructor({ objects, resolution, viscosity, diffuse }) {
@@ -16,7 +16,13 @@ export class ICFDMAP {
   }
 
   objectsToStemBound() {
-    return this.objects.map((cell) => cell !== 0 && cell !== WENT_CODE);
+    return this.objects.map(
+      (cell) =>
+        cell !== 0 &&
+        cell !== WENT_CODE &&
+        cell !== AIR_SOURCE_CODE &&
+        cell !== FAN_CODE,
+    );
   }
 
   initStemFluid() {

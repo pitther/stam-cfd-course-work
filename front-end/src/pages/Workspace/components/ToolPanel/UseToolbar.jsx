@@ -15,6 +15,7 @@ import {
   MdDeleteForever,
   MdNotStarted,
   MdStopCircle,
+  MdWaves,
   TiWeatherDownpour,
 } from 'react-icons/all';
 
@@ -67,6 +68,7 @@ const groups = [
       { name: 'DOOR', icon: <GiDoor /> },
       { name: 'FAN', icon: <FaFan /> },
       { name: 'WENT', icon: <FiWind /> },
+      { name: 'AIR SOURCE', icon: <MdWaves /> },
     ],
   },
   {
@@ -90,7 +92,7 @@ const getToolByName = (name) =>
   getToolGroupByName(name).tools.find((tool) => tool.name === name);
 
 const useToolbar = () => {
-  const [toggledTools, setToggledTools] = useState(['START', 'DEFAULT']);
+  const [toggledTools, setToggledTools] = useState(['STOP', 'DEFAULT']);
 
   const isToggled = (name) => toggledTools.indexOf(name) > -1;
 
