@@ -14,6 +14,7 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/require-default-props': 'off',
+    'react/prop-types': 0,
     'simple-import-sort/imports': 'warn',
     'simple-import-sort/exports': 'warn',
     'prettier/prettier': [

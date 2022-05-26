@@ -5,12 +5,14 @@ import ResponsibleSizeContext from '../../../../contexts/ResponsibleSize';
 import { ICFDMAP } from '../../../../util/Map';
 
 import { useCanvas } from './hooks/useCanvas';
+import { SOLID_OBJECTS_MAP1 } from './maps/temp_maps';
 import * as S from './Canvas.styled';
 
 const CURRENT_MAP = new ICFDMAP({
   resolution: 64,
   viscosity: 0.0,
-  diffuse: 0.0002,
+  objects: SOLID_OBJECTS_MAP1,
+  diffuse: 0,
 });
 
 const Canvas = ({ workspace }) => {
@@ -18,6 +20,12 @@ const Canvas = ({ workspace }) => {
   const containerRef = useRef();
 
   const { toolbar } = workspace;
+  const { getToolByName } = toolbar;
+
+  getToolByName('SAVE').action = () => {
+    console.log(CURRENT_MAP);
+  };
+
   const { canvasWidth, canvasHeight, setCanvasWidth, setCanvasHeight } =
     useContext(ResponsibleSizeContext);
 

@@ -27,11 +27,15 @@ const nativeCoordsToFluid = (
 });
 
 const addForces = (MAP) => {
-  MAP.objects.forEach((object, i) => {
-    if (object === FAN_CODE) {
-      MAP.stemFluid.fluid.addForceIX(i, -500, 0);
-    } else if (object === AIR_SOURCE_CODE) {
-      MAP.stemFluid.fluid.addDensityIX(i, 30, 50);
+  MAP.objects.forEach(({ code, orientation }, i) => {
+    if (code === FAN_CODE) {
+      MAP.stemFluid.fluid.addForceIX(
+        i,
+        200 * orientation[0],
+        200 * orientation[1],
+      );
+    } else if (code === AIR_SOURCE_CODE) {
+      MAP.stemFluid.fluid.addDensityIX(i, 50);
     }
   });
 };
@@ -39,6 +43,41 @@ const addForces = (MAP) => {
 const cursor = {
   x: 0,
   y: 0,
+  orientation: [0, 0],
+};
+
+export const handleToolbarOptions = (name) => {
+  switch (name) {
+    case 'FAN TOP LEFT':
+      cursor.orientation = [-1, -1];
+      break;
+    case 'FAN TOP':
+      cursor.orientation = [0, -1];
+      break;
+    case 'FAN TOP RIGHT':
+      cursor.orientation = [1, -1];
+      break;
+    case 'FAN LEFT':
+      cursor.orientation = [-1, 0];
+      break;
+    case 'FAN CENTER':
+      cursor.orientation = [0, 0];
+      break;
+    case 'FAN RIGHT':
+      cursor.orientation = [1, 0];
+      break;
+    case 'FAN DOWN LEFT':
+      cursor.orientation = [-1, 1];
+      break;
+    case 'FAN DOWN':
+      cursor.orientation = [0, 1];
+      break;
+    case 'FAN DOWN RIGHT':
+      cursor.orientation = [1, 1];
+      break;
+    default:
+      break;
+  }
 };
 
 export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
@@ -86,6 +125,7 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
       sceneRunning,
       clearDensity,
       MAP.resolution,
+      cursor.orientation,
     ],
   );
 
@@ -139,7 +179,7 @@ export const useCanvas = ({ MAP, canvasWidth, canvasHeight, toolbar }) => {
         MAP.addObject(WINDOW_CODE, x, y);
       }
       if (isToggled('FAN')) {
-        MAP.addObject(FAN_CODE, x, y);
+        MAP.addObject(FAN_CODE, x, y, cursor.orientation);
       }
       if (isToggled('WENT')) {
         MAP.addObject(WENT_CODE, x, y);

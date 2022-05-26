@@ -40,8 +40,8 @@ const colorScale = new ColorScale(0, 2, [
 ]);
 
 const checkOrientation = (x, y, objects, resolution) => {
-  const left = objects[IX(resolution, x - 1, y)];
-  const right = objects[IX(resolution, x + 1, y)];
+  const left = objects[IX(resolution, x - 1, y)]?.code;
+  const right = objects[IX(resolution, x + 1, y)]?.code;
   /* const top = objects[IX(resolution, x, y - 1)];
     const bottom = objects[IX(resolution, x, y + 1)]; */
 
@@ -67,7 +67,7 @@ const renderCells = ({ x, y, MAP, drawInfo }) => {
   drawCell(drawInfo);
 };
 
-const renderObjects = ({ drawInfo, objectCode }) => {
+const renderObjects = ({ drawInfo, objectCode, rotation }) => {
   switch (objectCode) {
     case WALL_CODE:
       drawWall(drawInfo);
@@ -82,7 +82,7 @@ const renderObjects = ({ drawInfo, objectCode }) => {
       drawWent(drawInfo);
       break;
     case FAN_CODE:
-      drawFan(drawInfo);
+      drawFan(drawInfo, rotation);
       break;
     case AIR_SOURCE_CODE:
       drawAirSource(drawInfo);
@@ -130,7 +130,8 @@ const use2DContextRender = () => {
 
       for (let y = 1; y <= resolution; y += 1) {
         for (let x = 1; x <= resolution; x += 1) {
-          const objectCode = MAP.objects[IX(resolution, x, y)];
+          const objectCode = MAP.objects[IX(resolution, x, y)]?.code;
+          const rotation = MAP.objects[IX(resolution, x, y)]?.orientation;
 
           if (objectCode) {
             const orientation = checkOrientation(x, y, MAP.objects, resolution);
@@ -144,7 +145,15 @@ const use2DContextRender = () => {
               orientation,
               offset: OFFSET,
             };
-            renderObjects({ x, y, drawInfo, MAP, resolution, objectCode });
+            renderObjects({
+              x,
+              y,
+              drawInfo,
+              MAP,
+              resolution,
+              objectCode,
+              rotation,
+            });
           }
         }
       }
@@ -175,6 +184,7 @@ const use2DContextRender = () => {
           MAP,
           resolution,
           objectCode: cursor.object,
+          rotation: cursor.orientation,
         });
 
         drawEmptyRect({

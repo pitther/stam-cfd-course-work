@@ -4,14 +4,22 @@ import {
   AiFillSave,
   BsArrowsMove,
   FaEraser,
-  FaFan,
   FaHandPointer,
   FiWind,
   GiArrowCursor,
   GiBrickWall,
+  GiComputerFan,
   GiDoor,
   GiWindow,
   GrClearOption,
+  ImArrowDown2,
+  ImArrowDownLeft2,
+  ImArrowDownRight2,
+  ImArrowLeft2,
+  ImArrowRight2,
+  ImArrowUp2,
+  ImArrowUpLeft2,
+  ImArrowUpRight2,
   MdDeleteForever,
   MdNotStarted,
   MdStopCircle,
@@ -50,7 +58,7 @@ const groups = [
     ],
   },
   {
-    title: 'AIR',
+    title: 'CONTROL',
     type: GROUP_TOGGLE,
     scope: GROUP_SCOPE_GLOBAL,
     tools: [
@@ -66,9 +74,23 @@ const groups = [
       { name: 'WALL', icon: <GiBrickWall /> },
       { name: 'WINDOW', icon: <GiWindow /> },
       { name: 'DOOR', icon: <GiDoor /> },
-      { name: 'FAN', icon: <FaFan /> },
       { name: 'WENT', icon: <FiWind /> },
       { name: 'AIR SOURCE', icon: <MdWaves /> },
+      {
+        name: 'FAN',
+        icon: <GiComputerFan />,
+        options: [
+          { name: 'FAN TOP LEFT', icon: <ImArrowUpLeft2 /> },
+          { name: 'FAN TOP', icon: <ImArrowUp2 /> },
+          { name: 'FAN TOP RIGHT', icon: <ImArrowUpRight2 /> },
+          { name: 'FAN LEFT', icon: <ImArrowLeft2 /> },
+          { name: 'FAN CENTER', icon: <GiComputerFan /> },
+          { name: 'FAN RIGHT', icon: <ImArrowRight2 /> },
+          { name: 'FAN DOWN LEFT', icon: <ImArrowDownLeft2 /> },
+          { name: 'FAN DOWN', icon: <ImArrowDown2 /> },
+          { name: 'FAN DOWN RIGHT', icon: <ImArrowDownRight2 /> },
+        ],
+      },
     ],
   },
   {
@@ -121,6 +143,11 @@ const useToolbar = () => {
   const toggle = (name) => {
     const group = getToolGroupByName(name);
     const tool = getToolByName(name);
+
+    if (!group) {
+      tool.action();
+      return;
+    }
 
     if (
       isToggled(name) &&

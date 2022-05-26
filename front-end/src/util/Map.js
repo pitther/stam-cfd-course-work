@@ -17,11 +17,11 @@ export class ICFDMAP {
 
   objectsToStemBound() {
     return this.objects.map(
-      (cell) =>
-        cell !== 0 &&
-        cell !== WENT_CODE &&
-        cell !== AIR_SOURCE_CODE &&
-        cell !== FAN_CODE,
+      ({ code }) =>
+        code !== 0 &&
+        code !== WENT_CODE &&
+        code !== AIR_SOURCE_CODE &&
+        code !== FAN_CODE,
     );
   }
 
@@ -35,13 +35,14 @@ export class ICFDMAP {
     });
   }
 
-  addObject(code, x, y) {
-    this.objects[this.IX(x, y)] = code;
+  addObject(code, x, y, orientation) {
+    this.objects[this.IX(x, y)].code = code;
+    if (orientation) this.objects[this.IX(x, y)].orientation = orientation;
     this.updateStemBoundRef();
   }
 
   removeObject(x, y) {
-    this.objects[this.IX(x, y)] = NONE_CODE;
+    this.objects[this.IX(x, y)].code = NONE_CODE;
     this.updateStemBoundRef();
   }
 
@@ -52,7 +53,10 @@ export class ICFDMAP {
   }
 
   generateClearMap() {
-    this.objects = new Array(this.resolution * this.resolution).fill(0);
+    this.objects = new Array(
+      (this.resolution + 2) * (this.resolution + 2),
+    ).fill(0);
+    this.objects = this.objects.map(() => ({ code: 0 }));
     this.updateStemBoundRef();
   }
 

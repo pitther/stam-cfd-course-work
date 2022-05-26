@@ -240,16 +240,16 @@ class Fluid {
       }
     }
 
-    this.boundaryBoxReflect(N, b, x);
+    this.boundaryBoxAbsorb(N, b, x);
     this.boundaryBoxCorners(N, b, x);
   }
 
   boundaryBoxAbsorb(N, b, x) {
     for (let i = 1; i <= N; i += 1) {
-      x[IX(N, 0, i)] = x[IX(N, 1, i)];
-      x[IX(N, N + 1, i)] = x[IX(N, N, i)];
-      x[IX(N, i, 0)] = x[IX(N, i, 1)];
-      x[IX(N, i, N + 1)] = x[IX(N, i, N)];
+      x[IX(N, 0, i)] = 0;
+      x[IX(N, N + 1, i)] = 0;
+      x[IX(N, i, 0)] = 0;
+      x[IX(N, i, N + 1)] = 0;
     }
   }
 

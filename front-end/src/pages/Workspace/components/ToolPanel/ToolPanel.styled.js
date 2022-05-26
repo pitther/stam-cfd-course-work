@@ -73,3 +73,17 @@ export const Tool = styled.div`
 
   font-size: 1.3rem;
 `;
+
+export const OptionContainer = styled.div`
+  display: flex;
+  flex: auto;
+  flex-wrap: wrap;
+  max-width: 111px;
+`;
+
+export const Centrize = styled.div`
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;

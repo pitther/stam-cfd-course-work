@@ -203,17 +203,93 @@ const drawCircle = ({ graphics, x, y, width, height, offset, hex, alpha }) => {
   );
 };
 
-export const drawFan = ({ graphics, x, y, width, height, offset }) => {
+const drawFanDirections = ({
+  topLeftX,
+  topLeftY,
+  width,
+  height,
+  orientation,
+  graphics,
+}) => {
+  const x = orientation[0];
+  const y = orientation[1];
+
+  if (x === -1 && y === -1) {
+    graphics.moveTo(topLeftX, topLeftY + height / 2);
+    graphics.lineTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.moveTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.lineTo(topLeftX + width / 2, topLeftY);
+    return;
+  }
+  if (x === 0 && y === -1) {
+    graphics.moveTo(topLeftX, topLeftY);
+    graphics.lineTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.moveTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.lineTo(topLeftX + width, topLeftY);
+    return;
+  }
+  if (x === 1 && y === -1) {
+    graphics.moveTo(topLeftX + width / 2, topLeftY);
+    graphics.lineTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.moveTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.lineTo(topLeftX + width, topLeftY + height / 2);
+    return;
+  }
+  if (x === -1 && y === 0) {
+    graphics.moveTo(topLeftX, topLeftY);
+    graphics.lineTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.moveTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.lineTo(topLeftX, topLeftY + height);
+    return;
+  }
+  if (x === 1 && y === 0) {
+    graphics.moveTo(topLeftX + width, topLeftY);
+    graphics.lineTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.moveTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.lineTo(topLeftX + width, topLeftY + height);
+    return;
+  }
+  if (x === -1 && y === 1) {
+    graphics.moveTo(topLeftX, topLeftY + height / 2);
+    graphics.lineTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.moveTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.lineTo(topLeftX + width / 2, topLeftY + height);
+    return;
+  }
+  if (x === 0 && y === 1) {
+    graphics.moveTo(topLeftX, topLeftY + height);
+    graphics.lineTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.moveTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.lineTo(topLeftX + width, topLeftY + height);
+    return;
+  }
+  if (x === 1 && y === 1) {
+    graphics.moveTo(topLeftX + width, topLeftY + height / 2);
+    graphics.lineTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.moveTo(topLeftX + width / 2, topLeftY + height / 2);
+    graphics.lineTo(topLeftX + width / 2, topLeftY + height);
+  }
+};
+
+export const drawFan = (
+  { graphics, x, y, width, height, offset },
+  orientation,
+) => {
   const { hex, alpha } = OBJECT_TEXTURES[4].colors;
   const topLeftX = offset.x + width * x;
   const topLeftY = offset.y + height * y;
 
   drawCircle({ graphics, x, y, width, height, offset, hex, alpha });
   graphics.lineStyle(3, 0x0db6ff, 1);
-  graphics.moveTo(topLeftX, topLeftY);
-  graphics.lineTo(topLeftX + width / 2, topLeftY + height / 2);
-  graphics.moveTo(topLeftX + width / 2, topLeftY + height / 2);
-  graphics.lineTo(topLeftX, topLeftY + height);
+  drawFanDirections({
+    graphics,
+    topLeftX,
+    topLeftY,
+    width,
+    height,
+    orientation,
+  });
+
   graphics.lineStyle(0);
 };
 
