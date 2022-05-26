@@ -58,15 +58,6 @@ const groups = [
     ],
   },
   {
-    title: 'CONTROL',
-    type: GROUP_TOGGLE,
-    scope: GROUP_SCOPE_GLOBAL,
-    tools: [
-      { name: 'POUR', icon: <TiWeatherDownpour /> },
-      { name: 'MOVE', icon: <BsArrowsMove /> },
-    ],
-  },
-  {
     title: 'BUILD',
     type: GROUP_TOGGLE,
     scope: GROUP_SCOPE_GLOBAL,
@@ -91,6 +82,15 @@ const groups = [
           { name: 'FAN DOWN RIGHT', icon: <ImArrowDownRight2 /> },
         ],
       },
+    ],
+  },
+  {
+    title: 'CONTROL',
+    type: GROUP_TOGGLE,
+    scope: GROUP_SCOPE_GLOBAL,
+    tools: [
+      { name: 'POUR', icon: <TiWeatherDownpour /> },
+      { name: 'MOVE', icon: <BsArrowsMove /> },
     ],
   },
   {
