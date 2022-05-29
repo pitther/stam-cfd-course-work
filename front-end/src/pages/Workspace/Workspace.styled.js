@@ -1,4 +1,4 @@
-import { Layout } from 'antd';
+import { InputNumber, Layout } from 'antd';
 import styled from 'styled-components';
 
 const COLLAPSE_BREAKPOINT = 800;
@@ -22,3 +22,18 @@ export const AntdContent = styled(Content)`
 
   text-align: center;
 `;
+
+export const SettingsInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 1rem;
+`;
+export const SettingsInputGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+export const SettingsInput = styled(InputNumber)`
+  font-weight: bold;
+`;
+export const SettingsInputLabel = styled.div``;

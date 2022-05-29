@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  AiFillFolderOpen,
   AiFillSave,
   BsArrowsMove,
   FaEraser,
@@ -20,6 +19,7 @@ import {
   ImArrowUp2,
   ImArrowUpLeft2,
   ImArrowUpRight2,
+  IoSettingsSharp,
   MdDeleteForever,
   MdNotStarted,
   MdStopCircle,
@@ -41,10 +41,10 @@ const groups = [
     type: GROUP_BUTTON,
     scope: GROUP_SCOPE_LOCAL,
     tools: [
-      { name: 'SETTINGS', icon: <AiFillFolderOpen /> },
+      { name: 'SETTINGS', icon: <IoSettingsSharp /> },
       { name: 'SAVE', icon: <AiFillSave /> },
-      { name: 'CLEAR OBJECTS', icon: <MdDeleteForever /> },
       { name: 'CLEAR AIR', icon: <GrClearOption /> },
+      { name: 'CLEAR OBJECTS', icon: <MdDeleteForever /> },
     ],
   },
   {

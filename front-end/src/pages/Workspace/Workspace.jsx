@@ -1,4 +1,4 @@
-import { Breadcrumb, message, Spin } from 'antd';
+import { Breadcrumb, Button, message, Modal, Spin } from 'antd';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -58,6 +58,12 @@ const Workspace = () => {
     });
   };
 
+  const [settingsModalVisible, setSettingsModalVisible] = useState(false);
+
+  getToolByName('SETTINGS').action = () => {
+    setSettingsModalVisible(true);
+  };
+
   useEffect(() => {
     setCurrentTab(WORKSPACE);
     if (mapId) {
@@ -79,6 +85,32 @@ const Workspace = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNewMap, mapId, navigate]);
 
+  const onChangeSettingsInput = (type, value) => {
+    switch (type) {
+      case 'R':
+        if (value <= 64) {
+          setCurrentMap(
+            new ICFDMAP({
+              viscosity: currentMap.viscosity,
+              diffuse: currentMap.diffuse,
+              id: currentMap.id,
+              name: currentMap.name,
+              resolution: parseInt(value, 10),
+            }),
+          );
+        }
+        break;
+      case 'V':
+        currentMap.viscosity = parseFloat(value);
+        break;
+      case 'D':
+        currentMap.diffuse = parseFloat(value);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       {!isNewMap ? (
@@ -96,8 +128,57 @@ const Workspace = () => {
                   <Canvas map={currentMap} workspace={workspace} />
                 </S.AntdContent>
               </S.SiderMenuWrapper>
-            </MainContentLayout>{' '}
+            </MainContentLayout>
           </Spin>
+          <Modal
+            title="Map settings"
+            visible={settingsModalVisible}
+            onCancel={() => setSettingsModalVisible(false)}
+            footer={[
+              <Button
+                type="primary"
+                key="back"
+                onClick={() => setSettingsModalVisible(false)}
+              >
+                Ok
+              </Button>,
+            ]}
+          >
+            <S.SettingsInputContainer>
+              <S.SettingsInputGroup>
+                <S.SettingsInputLabel>RESOLUTION</S.SettingsInputLabel>
+                <S.SettingsInput
+                  min={0}
+                  max={64}
+                  step={1}
+                  defaultValue={currentMap.resolution}
+                  onChange={(e) => onChangeSettingsInput('R', e)}
+                />
+              </S.SettingsInputGroup>
+              <S.SettingsInputGroup>
+                <S.SettingsInputLabel>VISCOSITY</S.SettingsInputLabel>
+                <S.SettingsInput
+                  min={0}
+                  max={1}
+                  step={0.0001}
+                  defaultValue={currentMap.viscosity}
+                  stringMode
+                  onChange={(e) => onChangeSettingsInput('V', e)}
+                />
+              </S.SettingsInputGroup>
+              <S.SettingsInputGroup>
+                <S.SettingsInputLabel>DIFFUSION</S.SettingsInputLabel>
+                <S.SettingsInput
+                  defaultValue={currentMap.diffuse}
+                  min={0}
+                  max={1}
+                  step={0.0001}
+                  stringMode
+                  onChange={(e) => onChangeSettingsInput('D', e)}
+                />
+              </S.SettingsInputGroup>
+            </S.SettingsInputContainer>
+          </Modal>
         </>
       ) : (
         <NewMap />
