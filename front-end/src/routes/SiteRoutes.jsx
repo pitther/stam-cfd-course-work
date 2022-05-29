@@ -20,7 +20,7 @@ const SiteRoutes = () => {
         <Routes>
           {loggedIn && (
             <>
-              <Route path={paths.WORKSPACE} element={<Workspace />} />
+              <Route path={`${paths.WORKSPACE}/*`} element={<Workspace />} />
               <Route path={paths.PROFILE} element={<Profile />} />
             </>
           )}
@@ -28,6 +28,7 @@ const SiteRoutes = () => {
           <Route path={paths.HOME} element={<Home />} />
           <Route path={paths.BROWSE} element={<Browse />} />
           <Route path={'/*'} element={<NoMatch />} />
+          <Route path={paths.NO_MATCH} element={<NoMatch />} />
         </Routes>
       </Layout>
     </Router>

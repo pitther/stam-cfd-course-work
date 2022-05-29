@@ -29,18 +29,9 @@ const MainLayout = ({ children }) => {
               <Link to={paths.WORKSPACE}>WORKSPACE</Link>
             </Menu.Item>
           )}
-          <Menu.Item key={paths.BROWSE}>
+          <Menu.Item style={{ marginLeft: 'auto' }} key={paths.BROWSE}>
             <Link to={paths.BROWSE}>BROWSE</Link>
           </Menu.Item>
-          {loggedIn ? (
-            <Menu.Item style={{ marginLeft: 'auto' }} key={paths.PROFILE}>
-              <Link to={paths.PROFILE}>PROFILE</Link>
-            </Menu.Item>
-          ) : (
-            <Menu.Item style={{ marginLeft: 'auto' }} key={paths.LOGIN}>
-              <Link to={paths.LOGIN}>LOGIN</Link>
-            </Menu.Item>
-          )}
         </S.AntdMenu>
       </S.AntdHeader>
       <S.AntdContainer>{children}</S.AntdContainer>

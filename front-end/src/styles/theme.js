@@ -12,6 +12,7 @@ export const themeColors = {
   metal: '#909497',
   window: '#2874A6',
   air: '#2874A6',
+  border: '#d9d9d9',
 };
 
 export const sizes = {

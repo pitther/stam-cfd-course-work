@@ -1,3 +1,5 @@
+import { message } from 'antd';
+
 import 'antd/dist/antd.less';
 
 import LayoutContext from './contexts/LayoutContext';
@@ -12,6 +14,7 @@ import { GlobalStyles } from './styles/Global.styled';
 import './styles/normalize.css';
 
 function App() {
+  message.config({ duration: 1.5 });
   const responsibleSize = useResponsibleSize();
   const layout = useLayout();
   const user = useUser();

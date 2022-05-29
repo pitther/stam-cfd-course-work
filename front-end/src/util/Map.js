@@ -3,15 +3,17 @@ import { useStemFluid } from '../pages/Workspace/components/StemFluid/StemFluid'
 import { AIR_SOURCE_CODE, FAN_CODE, NONE_CODE, WENT_CODE } from './ObjectCodes';
 
 export class ICFDMAP {
-  constructor({ objects, resolution, viscosity, diffuse }) {
+  constructor({ objects, resolution, viscosity, diffuse, id }) {
     this.resolution = resolution;
     this.viscosity = viscosity;
     this.diffuse = diffuse;
+    this.id = id;
 
     if (!objects) {
       this.generateClearMap();
     } else {
       this.objects = objects;
+      this.updateStemBoundRef();
     }
   }
 
@@ -33,6 +35,7 @@ export class ICFDMAP {
       viscosity: this.viscosity,
       diffuse: this.diffuse,
     });
+    this.updateStemBoundRef();
   }
 
   addObject(code, x, y, orientation) {
