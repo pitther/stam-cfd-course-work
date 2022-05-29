@@ -30,7 +30,7 @@ export const OverImage = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: url(${({ img }) => img});
+  /*background: url(${({ img }) => img});*/
   text-align: center;
 
   background-size: cover;
@@ -48,7 +48,9 @@ export const Title = styled.div`
 export const Join = styled(Button)`
   color: ${themeColors.default};
   text-shadow: 2px 2px 1px ${themeColors.accent};
-  font-size: 3rem;
+  font-size: 2em;
+  max-width: 100%;
+  white-space: break-spaces;
   height: auto;
   background: none;
   margin: 2rem auto 3rem;

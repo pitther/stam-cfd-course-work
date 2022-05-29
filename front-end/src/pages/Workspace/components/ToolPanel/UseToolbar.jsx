@@ -41,7 +41,7 @@ const groups = [
     type: GROUP_BUTTON,
     scope: GROUP_SCOPE_LOCAL,
     tools: [
-      { name: 'OPEN', icon: <AiFillFolderOpen /> },
+      { name: 'SETTINGS', icon: <AiFillFolderOpen /> },
       { name: 'SAVE', icon: <AiFillSave /> },
       { name: 'CLEAR OBJECTS', icon: <MdDeleteForever /> },
       { name: 'CLEAR AIR', icon: <GrClearOption /> },
