@@ -19,5 +19,6 @@ export const AntdContent = styled(Content)`
   height: 100%;
   padding: 0 0 1rem 0;
   min-height: 280px;
-  background: white;
+
+  text-align: center;
 `;

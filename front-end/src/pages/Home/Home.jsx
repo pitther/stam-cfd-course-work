@@ -1,33 +1,41 @@
 import { Button } from 'antd';
 import { useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import LayoutContext from '../../contexts/LayoutContext';
 import UserContext from '../../contexts/UserContext';
 import background from '../../resources/images/background.png';
 import * as paths from '../../routes/paths';
-import { HOME } from '../../routes/paths';
+import { HOME, WORKSPACE } from '../../routes/paths';
 
+import { Header } from '../NoMatch/NoMatch.styled';
 import * as S from './Home.styled';
 
 const Home = () => {
   const { loggedIn } = useContext(UserContext);
   const { setCurrentTab } = useContext(LayoutContext);
-
+  const navigate = useNavigate();
   useEffect(() => {
     setCurrentTab(HOME);
   }, [setCurrentTab]);
+
+  const onClickJoin = () => {
+    navigate(WORKSPACE);
+  };
 
   return (
     <S.Wrapper>
       <S.Container>
         <S.Block>
           <S.OverImage img={background}>
-            <S.Title>
+            <Header>
               ICFD <S.Subtitle>indoor computational fluid dynamics</S.Subtitle>
-            </S.Title>
+            </Header>
           </S.OverImage>
         </S.Block>
+        <S.Join onClick={onClickJoin} type="default">
+          CREATE FIRST MAP
+        </S.Join>
         <S.Block>
           <S.Text>
             based on{' '}

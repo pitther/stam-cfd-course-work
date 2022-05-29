@@ -4,22 +4,11 @@ const { addMap } = require('../db/requests');
 module.exports = (fastify) =>
   fastify.route({
     method: 'POST',
-    url: '/mapvxv',
-    schema: {
-      querystring: {
-        id: { type: 'string' },
-      },
-      response: {
-        200: {
-          type: 'object',
-          properties: {
-            map: { type: 'object' },
-          },
-        },
-      },
-    },
-    handler: async () => {
-      const response = await addMap({ kek: 'lol', id: v4() });
+    url: '/map',
+    handler: async (request) => {
+      const id = v4();
+      const response = await addMap({ ...request.body.params.map, id });
+      response.id = id;
       return { response };
     },
   });

@@ -18,7 +18,7 @@ const useData = () => {
   const addMap = async (map) =>
     axios
       .post(`${url}/map`, { params: { map } })
-      .then((res) => res.data)
+      .then((res) => res)
       .catch((err) => err);
 
   const updateMap = async (map) =>

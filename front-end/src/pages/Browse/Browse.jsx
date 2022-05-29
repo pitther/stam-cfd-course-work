@@ -8,6 +8,7 @@ import * as paths from '../../routes/paths';
 import { BROWSE } from '../../routes/paths';
 
 import { MainContentLayout } from '../../components/Layout/Layout.styled';
+import { Title } from '../Workspace/components/NewMap/NewMap.styled';
 import * as S from './Browse.styled';
 
 const Browse = () => {
@@ -23,12 +24,12 @@ const Browse = () => {
 
   const getNeededMaps = useCallback(
     () =>
-      maps.filter(({ name }) => name.toUpperCase().indexOf(searchQuery) > -1),
+      maps.filter(({ name }) => name?.toUpperCase()?.indexOf(searchQuery) > -1),
     [maps, searchQuery],
   );
 
   const handleSearch = (e) => {
-    setSearchQuery(e.target.value.toString().toUpperCase());
+    setSearchQuery(e.target.value?.toString()?.toUpperCase());
     setQueryMaps(getNeededMaps);
   };
 
@@ -52,9 +53,10 @@ const Browse = () => {
     <>
       <MainContentLayout>
         <S.ContentBox>
+          <Title>Browse</Title>
           <S.SearchInput
             value={searchQuery}
-            placeholder="Search by name"
+            placeholder="name"
             onChange={handleSearch}
           />
 

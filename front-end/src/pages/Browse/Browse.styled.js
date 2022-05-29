@@ -10,7 +10,8 @@ export const ContentBox = styled.div`
   flex-direction: column;
   gap: 2rem;
   margin: 0 auto;
-  padding: 2rem 2rem 2rem;
+  padding: 4rem 2rem 2rem;
+  text-align: center;
 `;
 
 export const SearchInput = styled(Input)`
@@ -38,6 +39,7 @@ export const MapsContainer = styled.div`
 `;
 
 export const MapCard = styled.div`
+  min-width: 100%;
   display: flex;
   justify-content: center;
   border: 1px solid ${themeColors.border};
@@ -57,7 +59,7 @@ export const Name = styled.div`
   text-align: center;
   padding-bottom: 1rem;
 `;
-export const Resolution = styled.div`
+export const Resolution = styled.span`
   font-size: 12px;
   font-weight: normal;
   text-align: left;
@@ -65,6 +67,9 @@ export const Resolution = styled.div`
 export const Viscosity = styled(Resolution)``;
 export const Diffusion = styled(Resolution)``;
 export const Id = styled(Resolution)`
+  display: inline;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 90px;
 `;

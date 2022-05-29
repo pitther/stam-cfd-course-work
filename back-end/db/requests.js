@@ -1,6 +1,4 @@
 const { MongoClient } = require('mongodb');
-const { v4 } = require('uuid');
-
 require('dotenv-flow').config();
 
 const username = process.env.DB_USERNAME;
@@ -47,8 +45,6 @@ async function updateMap(map) {
 
 async function addMap(map) {
   const { collection } = await connectCollection();
-  // eslint-disable-next-line no-param-reassign
-  map.id = v4();
   return collection.insertOne(map);
 }
 

@@ -1,6 +1,6 @@
-import { Breadcrumb, message } from 'antd';
+import { Breadcrumb, message, Spin } from 'antd';
 import { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import LayoutContext from '../../contexts/LayoutContext';
 import useData from '../../hooks/UseData';
@@ -8,6 +8,7 @@ import { NO_MATCH, WORKSPACE } from '../../routes/paths';
 import { ICFDMAP } from '../../util/Map';
 
 import Canvas from './components/Canvas';
+import NewMap from './components/NewMap';
 import ToolPanel from './components/ToolPanel';
 import useWorkspace from './UseWorkspace';
 import {
@@ -17,7 +18,13 @@ import {
 import * as S from './Workspace.styled';
 
 const Workspace = () => {
-  const location = useLocation();
+  const navigate = useNavigate();
+  const { setCurrentTab } = useContext(LayoutContext);
+  const workspace = useWorkspace();
+
+  const { getToolByName } = workspace.toolbar;
+  const { id: mapId } = useParams();
+
   const [currentMap, setCurrentMap] = useState(
     new ICFDMAP({
       resolution: 64,
@@ -25,17 +32,15 @@ const Workspace = () => {
       diffuse: 0,
     }),
   );
-  const mapId = location.pathname.split('/').pop();
-  const [isNewMap, setIsNewMap] = useState(!mapId.length);
-  const [isLoadingMap, setIsLoadingMap] = useState(true);
+
+  const isNewMap = !mapId;
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const { getMap, updateMap } = useData(LayoutContext);
 
-  const { setCurrentTab } = useContext(LayoutContext);
-  const workspace = useWorkspace();
-
-  const { getToolByName } = workspace.toolbar;
-
   getToolByName('SAVE').action = () => {
+    setIsLoading(true);
     updateMap({
       objects: currentMap.objects,
       viscosity: currentMap.viscosity,
@@ -45,22 +50,21 @@ const Workspace = () => {
     }).then((r) => {
       if (r.matchedCount) {
         message.success('Map saved');
+        setIsLoading(false);
       } else {
         message.error('Error saving map');
+        setIsLoading(false);
       }
     });
   };
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     setCurrentTab(WORKSPACE);
-  }, [mapId, setCurrentTab]);
-
-  useEffect(() => {
-    if (!isNewMap && mapId !== 'workspace') {
+    if (mapId) {
+      setIsLoading(true);
       getMap(mapId).then(({ map }) => {
         if (!map) {
+          setIsLoading(false);
           navigate(NO_MATCH);
         } else {
           setCurrentMap(
@@ -68,26 +72,36 @@ const Workspace = () => {
               ...map,
             }),
           );
+          setIsLoading(false);
         }
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNewMap, mapId, navigate]);
 
   return (
     <>
-      <AntdBreadcrumb>
-        <Breadcrumb.Item>Workspace</Breadcrumb.Item>
-        <Breadcrumb.Item>Map</Breadcrumb.Item>
-        <Breadcrumb.Item>Hospital 2</Breadcrumb.Item>
-      </AntdBreadcrumb>
-      <MainContentLayout>
-        <S.SiderMenuWrapper>
-          <S.AntdContent>
-            <ToolPanel toolbar={workspace.toolbar} />
-            <Canvas map={currentMap} workspace={workspace} />
-          </S.AntdContent>
-        </S.SiderMenuWrapper>
-      </MainContentLayout>
+      {!isNewMap ? (
+        <>
+          <AntdBreadcrumb>
+            <Breadcrumb.Item>Workspace</Breadcrumb.Item>
+            <Breadcrumb.Item>Map</Breadcrumb.Item>
+            <Breadcrumb.Item>{currentMap.name}</Breadcrumb.Item>
+          </AntdBreadcrumb>
+          <Spin spinning={isLoading} delay={0}>
+            <MainContentLayout>
+              <S.SiderMenuWrapper>
+                <S.AntdContent>
+                  <ToolPanel toolbar={workspace.toolbar} />
+                  <Canvas map={currentMap} workspace={workspace} />
+                </S.AntdContent>
+              </S.SiderMenuWrapper>
+            </MainContentLayout>{' '}
+          </Spin>
+        </>
+      ) : (
+        <NewMap />
+      )}
     </>
   );
 };

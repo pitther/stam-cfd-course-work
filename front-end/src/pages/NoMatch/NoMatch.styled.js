@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Title } from '../Workspace/components/NewMap/NewMap.styled';
+
 export const Wrapper = styled.div`
   width: 100%;
 `;
@@ -13,7 +15,7 @@ export const Container = styled.div`
   margin: 2rem;
 `;
 
-export const Title = styled.div`
+export const Header = styled(Title)`
   font-size: 7rem;
 `;
 

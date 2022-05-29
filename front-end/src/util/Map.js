@@ -3,11 +3,12 @@ import { useStemFluid } from '../pages/Workspace/components/StemFluid/StemFluid'
 import { AIR_SOURCE_CODE, FAN_CODE, NONE_CODE, WENT_CODE } from './ObjectCodes';
 
 export class ICFDMAP {
-  constructor({ objects, resolution, viscosity, diffuse, id }) {
+  constructor({ objects, resolution, viscosity, diffuse, id, name }) {
     this.resolution = resolution;
     this.viscosity = viscosity;
     this.diffuse = diffuse;
     this.id = id;
+    this.name = name;
 
     if (!objects) {
       this.generateClearMap();
