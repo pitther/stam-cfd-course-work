@@ -4,10 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import LayoutContext from '../../contexts/LayoutContext';
 import UserContext from '../../contexts/UserContext';
-import background from '../../resources/images/background.gif';
+import background from '../../resources/images/background.png';
 import * as paths from '../../routes/paths';
 import { HOME, WORKSPACE } from '../../routes/paths';
 
+import { Header } from '../NoMatch/NoMatch.styled';
 import * as S from './Home.styled';
 
 const Home = () => {
@@ -25,12 +26,13 @@ const Home = () => {
   return (
     <S.Wrapper>
       <S.Container>
-        <S.MainBlock>
-          <S.OverImage img={background} />
-          <S.Title>
-            ICFD <S.Subtitle>indoor computational fluid dynamics</S.Subtitle>
-          </S.Title>
-        </S.MainBlock>
+        <S.Block>
+          <S.OverImage img={background}>
+            <Header>
+              ICFD <S.Subtitle>indoor computational fluid dynamics</S.Subtitle>
+            </Header>
+          </S.OverImage>
+        </S.Block>
         <S.Join onClick={onClickJoin} type="default">
           CREATE FIRST MAP
         </S.Join>
