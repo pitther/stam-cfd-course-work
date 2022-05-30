@@ -32,7 +32,7 @@ export const MapsContainer = styled.div`
   gap: 1rem;
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(186px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 
   & > * {
     flex: 1;
