@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5000';
+const url = 'https://omq.ddns.net';
 
 const useData = () => {
   const getAllMaps = async () =>
