@@ -101,10 +101,10 @@ const Workspace = () => {
         }
         break;
       case 'V':
-        currentMap.viscosity = parseFloat(value);
+        currentMap.updateViscosity(parseFloat(value));
         break;
       case 'D':
-        currentMap.diffuse = parseFloat(value);
+        currentMap.updateDiffuse(parseFloat(value));
         break;
       default:
         break;
@@ -159,7 +159,7 @@ const Workspace = () => {
                 <S.SettingsInputLabel>VISCOSITY</S.SettingsInputLabel>
                 <S.SettingsInput
                   min={0}
-                  max={1}
+                  max={10}
                   step={0.0001}
                   defaultValue={currentMap.viscosity}
                   stringMode
@@ -171,7 +171,7 @@ const Workspace = () => {
                 <S.SettingsInput
                   defaultValue={currentMap.diffuse}
                   min={0}
-                  max={1}
+                  max={3}
                   step={0.0001}
                   stringMode
                   onChange={(e) => onChangeSettingsInput('D', e)}

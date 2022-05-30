@@ -18,6 +18,16 @@ export class ICFDMAP {
     }
   }
 
+  updateViscosity(value) {
+    this.viscosity = value;
+    this.stemFluid.fluid.visc = value;
+  }
+
+  updateDiffuse(value) {
+    this.diffuse = value;
+    this.stemFluid.fluid.diff = value;
+  }
+
   objectsToStemBound() {
     return this.objects.map(
       ({ code }) =>

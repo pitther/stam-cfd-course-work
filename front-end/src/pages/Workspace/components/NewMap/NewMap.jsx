@@ -24,11 +24,10 @@ const NewMap = () => {
     setLoading(true);
     addMap({ resolution: 64, viscosity: 0, diffuse: 0, name })
       .then((res) => {
-        setTimeout(() => {
+        if (res.data.response.id) {
           navigate(`${WORKSPACE}/${res.data.response.id}`);
-        }, 200);
-
-        message.success('Map has been created');
+          message.success('Map has been created');
+        }
       })
       .catch(() => {
         message.error('Error creating map');
