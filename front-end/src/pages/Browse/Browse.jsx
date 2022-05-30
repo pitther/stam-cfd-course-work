@@ -56,7 +56,7 @@ const Browse = () => {
           <Title>Browse</Title>
           <S.SearchInput
             value={searchQuery}
-            placeholder="name"
+            placeholder="search by name"
             onChange={handleSearch}
           />
 

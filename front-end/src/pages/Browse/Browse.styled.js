@@ -28,10 +28,11 @@ export const SearchInput = styled(Input)`
 `;
 
 export const MapsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
   width: 100%;
   gap: 1rem;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(186px, 1fr));
 
   & > * {
     flex: 1;
@@ -39,7 +40,7 @@ export const MapsContainer = styled.div`
 `;
 
 export const MapCard = styled.div`
-  min-width: 100%;
+  max-width: 1fr;
   display: flex;
   justify-content: center;
   border: 1px solid ${themeColors.border};
@@ -58,6 +59,10 @@ export const Name = styled.div`
   font-size: 16px;
   text-align: center;
   padding-bottom: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: ${themeColors.accent};
+  text-shadow: 2px 2px 1px ${themeColors.default};
 `;
 export const Resolution = styled.span`
   font-size: 12px;
