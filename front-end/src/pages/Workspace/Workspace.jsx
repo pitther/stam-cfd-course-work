@@ -145,7 +145,7 @@ const Workspace = () => {
             ]}
           >
             <S.SettingsInputContainer>
-              <S.SettingsInputGroup>
+              {/* <S.SettingsInputGroup>
                 <S.SettingsInputLabel>RESOLUTION</S.SettingsInputLabel>
                 <S.SettingsInput
                   min={0}
@@ -154,7 +154,7 @@ const Workspace = () => {
                   defaultValue={currentMap.resolution}
                   onChange={(e) => onChangeSettingsInput('R', e)}
                 />
-              </S.SettingsInputGroup>
+              </S.SettingsInputGroup> */}
               <S.SettingsInputGroup>
                 <S.SettingsInputLabel>VISCOSITY</S.SettingsInputLabel>
                 <S.SettingsInput
