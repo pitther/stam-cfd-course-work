@@ -14,7 +14,6 @@ const SiteRoutes = () => (
       <Routes>
         <Route path={`${paths.WORKSPACE}/:id`} element={<Workspace />} />
         <Route path={`${paths.WORKSPACE}`} element={<Workspace />} />
-
         <Route path={paths.HOME} element={<Home />} />
         <Route path={paths.BROWSE} element={<Browse />} />
         <Route path={'/*'} element={<NoMatch />} />

@@ -5,42 +5,6 @@ function IX(N, i, j) {
   return i + (N + 2) * j;
 }
 
-/*
-    Function of solving linear differential equation
-    - b : int
-    - x : float[]
-    - x0 : float[]
-    - a : float
-    - c : float
-*/
-
-/*
-    Function of diffuse
-    - b : int
-    - x : float[]
-    - x0 : float[]
-    - diff : float
-    - dt : flaot
-*/
-/*
-    Function of advect: responsible for actually moving things around
-    - b : int
-    - d : float[]
-    - d0 : float[]
-    - velocX : float[]
-    - velocY : float[]
-    - velocZ : float[]
-    - dt : float[]
-*/
-
-/*
-    Function of project : This operation runs through all the cells and fixes them up so everything is in equilibrium.
-    - velocX : float[]
-    - velocY : float[]
-    = p : float[]
-    - div : float[]
-*/
-
 class Fluid {
   constructor(N, visc, diff, boundObjects) {
     this.N = N;
@@ -218,12 +182,6 @@ class Fluid {
     // eslint-disable-next-line no-param-reassign
     for (let i = 0; i < size; i += 1) x[i] += dt * s[i];
   }
-
-  /*
-                  Function of dealing with situation with boundary cells.
-                  - b : int
-                  - x : float[]
-              */
 
   setBnd(N, b, x) {
     for (let i = 1; i <= N; i += 1) {
