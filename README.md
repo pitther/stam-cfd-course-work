@@ -1,8 +1,10 @@
-# stam-cfd-course-work
+## [Live version on vercel](https://stam-cdf.vercel.app/)
 
 Final bachelor`s project on “Development of web tool for airflow modeling to reduce the risk of spreading viruses indoors”
 This bachelor`s work identifies the main factors that affect the spread of viruses in the room; created web tool to simulate airflow inside the created rooms.
 Keywords: Indoor airflows, computational hydrodynamics, SARS-CoV-2, CFD, Web Application.
+
+
 
 Bad ventilation example    |  Good ventilation expample
 :-------------------------:|:-------------------------:
@@ -10,7 +12,7 @@ Bad ventilation example    |  Good ventilation expample
 
 
 
-pages: 
+Pages: 
 
 Building constructor    |  Browse page
 :-------------------------:|:-------------------------:
