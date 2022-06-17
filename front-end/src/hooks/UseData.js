@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'https://omq.ddns.net';
+const url = 'https://zhaba1945.ddns.net/icfd';
 
 const useData = () => {
   const getAllMaps = async () =>
