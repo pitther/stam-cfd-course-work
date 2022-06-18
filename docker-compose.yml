@@ -3,12 +3,12 @@ services:
   backend:
     build: ./back-end
     ports:
-      - "5001:5000"
-  frontend:
-    build: ./front-end
-    ports:
-      - "3001:3000"
-    environment:
-      - NODE_OPTIONS=--openssl-legacy-provider
+      - "5000:5000"
+#  frontend:
+#    build: ./front-end
+#    ports:
+#      - "3001:3000"
+#    environment:
+#      - NODE_OPTIONS=--openssl-legacy-provider
 
 
