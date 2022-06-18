@@ -1,4 +1,4 @@
-const fastify = require('fastify')({ logger: true });
+const fastify = require('fastify')({ logger: true, ignoreTrailingSlash: true });
 
 fastify.register(require('@fastify/cors'));
 
@@ -18,7 +18,7 @@ updateMap(fastify);
 
 const start = async () => {
   try {
-    await fastify.listen(PORT);
+    await fastify.listen(PORT, '0.0.0.0');
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
