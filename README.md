@@ -6,7 +6,7 @@ Keywords: Indoor airflows, computational hydrodynamics, SARS-CoV-2, CFD, Web App
 
 
 
-Bad ventilation example    |  Good ventilation expample
+Bad ventilation example (gif)    |  Good ventilation expample (gif)
 :-------------------------:|:-------------------------:
 ![bad_](https://user-images.githubusercontent.com/26699314/172219751-56832758-11d0-48f7-8c5c-e44e8da26595.gif)  |  ![good_compress](https://user-images.githubusercontent.com/26699314/172220360-18dd5c6f-633b-44cc-9589-b51f2944b2d3.gif)
 
