@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'https://zhaba1945.ddns.net/icfd';
+const url = 'https://uxodopiva.ddns.net/icfd';
 
 const useData = () => {
   const getAllMaps = async () =>
